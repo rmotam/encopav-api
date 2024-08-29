@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using encopav_api.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace encopav_api.Controllers
 {
@@ -6,10 +7,17 @@ namespace encopav_api.Controllers
     [Route("[controller]/[action]")]
     public class CadastroController : Controller
     {
+        private readonly ICadastroService _cadastroService;
+        public CadastroController(ICadastroService cadastroService)
+        {
+            _cadastroService = cadastroService;
+        }
+
+
         [HttpGet]
         public IActionResult Teste()
         {
-            return Ok("Rodando...");
+            return Ok(Task.Run(() => _cadastroService.Teste()).Result);
         }
     }
 }
