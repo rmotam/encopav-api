@@ -1,8 +1,6 @@
 using encopav_api.Configurations;
 using encopav_api.Repository;
 using encopav_api.Services;
-using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,4 +34,4 @@ app.MapControllers();
 
 app.Run();
 
-static ConfiguracaoBanco CriarParametrosConexao(string parametro) => new() { MySQLConnectionString = parametro};
+static ConfiguracaoBanco CriarParametrosConexao(string? parametro) => new() { MySQLConnectionString = parametro};

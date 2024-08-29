@@ -2,6 +2,6 @@
 {
     public class ConfiguracaoBanco
     {
-        public string MySQLConnectionString { get; set; }
+        public string? MySQLConnectionString { get; set; }
     }
 }
