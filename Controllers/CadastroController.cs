@@ -1,4 +1,5 @@
 ﻿using encopav_api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace encopav_api.Controllers
@@ -15,6 +16,7 @@ namespace encopav_api.Controllers
 
 
         [HttpGet]
+        [Authorize("Bearer")]
         public IActionResult Teste()
         {
             return Ok(Task.Run(() => _cadastroService.Teste()).Result);
