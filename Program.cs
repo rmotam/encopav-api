@@ -1,6 +1,6 @@
-using encopav_api.Configurations;
-using encopav_api.Repository;
-using encopav_api.Services;
+using Configurations;
+using Repository;
+using Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;

@@ -1,4 +1,4 @@
-﻿namespace encopav_api.Configurations
+﻿namespace Configurations
 {
     public class ConfiguracaoBanco
     {

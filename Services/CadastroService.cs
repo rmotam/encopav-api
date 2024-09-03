@@ -1,6 +1,7 @@
-﻿using encopav_api.Repository;
+﻿using DTO;
+using Repository;
 
-namespace encopav_api.Services
+namespace Services
 {
     public class CadastroService : ICadastroService
     {
@@ -11,5 +12,11 @@ namespace encopav_api.Services
         }
 
         public async Task<string> Teste() => await _cadastroRepository.Teste();
+
+        public async Task<IEnumerable<UnidadeMedidaDto>> ListarUnidadesMedida() => await _cadastroRepository.ListarUnidadesMedida();
+
+        public async Task IncluirUnidadeMedida(UnidadeMedidaDto unidadeMedida) => await _cadastroRepository.IncluirUnidadeMedida(unidadeMedida);
+
+        public async Task AlterarUnidadeMedida(UnidadeMedidaDto unidadeMedida) => await _cadastroRepository.AlterarUnidadeMedida(unidadeMedida);
     }
 }
