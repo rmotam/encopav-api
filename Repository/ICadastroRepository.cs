@@ -35,5 +35,11 @@ namespace Repository
         Task AlterarVeiculo(VeiculoDto veiculo);
 
         Task IncluirVeiculo(VeiculoDto veiculo);
+
+        Task<IEnumerable<ObraDto>> ListarObras();
+
+        Task AlterarObra(ObraDto obra);
+
+        Task IncluirObra(ObraDto obra);
     }
 }

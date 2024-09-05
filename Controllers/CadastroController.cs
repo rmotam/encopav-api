@@ -272,5 +272,55 @@ namespace Controllers
         }
 
         #endregion
+
+        #region Obra
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<ObraDto>>> ListarObra()
+        {
+            var retorno = await _cadastroService.ListarObra();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirObra([FromBody] ObraDto obra)
+        {
+            try
+            {
+                await _cadastroService.IncluirObra(obra);
+
+                return Ok("Obra incluída com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarObra([FromBody] ObraDto obra)
+        {
+            try
+            {
+                await _cadastroService.AlterarObra(obra);
+
+                return Ok("Obra alterada com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

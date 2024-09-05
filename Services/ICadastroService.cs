@@ -35,5 +35,11 @@ namespace Services
         Task IncluirVeiculo(VeiculoDto veiculo);
 
         Task AlterarVeiculo(VeiculoDto veiculo);
+
+        Task<IEnumerable<ObraDto>> ListarObra();
+
+        Task IncluirObra(ObraDto obra);
+
+        Task AlterarObra(ObraDto obra);
     }
 }

@@ -211,5 +211,50 @@ namespace Repository
         }
 
         #endregion
+
+        #region Obras
+
+        public async Task<IEnumerable<ObraDto>> ListarObras()
+        {
+            string sql = "SELECT id_obra as id, numero, nome, endereco, data_inicio as DataInicio, data_termino as DataTermino, situacao FROM encopav_obra;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<ObraDto>(sql);
+        }
+
+        public async Task AlterarObra(ObraDto obra)
+        {
+            string sql = "UPDATE encopav_obra SET numero = @Numero, nome = @Nome, endereco = @Endereco, data_inicio = @DataInicio, data_termino = @DataTermino, situacao = @Situacao WHERE id_obra = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Numero", obra.Numero, DbType.String);
+            parametros.Add("@Nome", obra.Nome, DbType.String);
+            parametros.Add("@Endereco", obra.Endereco, DbType.String);
+            parametros.Add("@DataInicio", obra.DataInicio, DbType.DateTime);
+            parametros.Add("@DataTermino", obra.DataTermino, DbType.DateTime);
+            parametros.Add("@Situacao", obra.Situacao, DbType.Boolean);
+            parametros.Add("@Id", obra.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirObra(ObraDto obra)
+        {
+            string sql = "INSERT INTO encopav_obra (numero, nome, endereco, data_inicio, data_termino, situacao) VALUES (@Numero, @Nome, @Endereco, @DataInicio, @DataTermino, @Situacao);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Numero", obra.Numero, DbType.String);
+            parametros.Add("@Nome", obra.Nome, DbType.String);
+            parametros.Add("@Endereco", obra.Endereco, DbType.String);
+            parametros.Add("@DataInicio", obra.DataInicio, DbType.DateTime);
+            parametros.Add("@DataTermino", obra.DataTermino, DbType.DateTime);
+            parametros.Add("@Situacao", obra.Situacao, DbType.Boolean);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
     }
 }
