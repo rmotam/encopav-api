@@ -23,5 +23,17 @@ namespace Repository
         Task AlterarTransportadora(TransportadoraDto transportadora);
 
         Task IncluirTransportadora(TransportadoraDto transportadora);
+
+        Task<IEnumerable<OrigemMaterialDto>> ListarOrigemMaterial();
+
+        Task AlterarOrigemMaterial(OrigemMaterialDto origemMaterial);
+
+        Task IncluirOrigemMaterial(OrigemMaterialDto origemMaterial);
+
+        Task<IEnumerable<VeiculoDto>> ListarVeiculo();
+
+        Task AlterarVeiculo(VeiculoDto veiculo);
+
+        Task IncluirVeiculo(VeiculoDto veiculo);
     }
 }

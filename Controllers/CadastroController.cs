@@ -172,5 +172,105 @@ namespace Controllers
         }
 
         #endregion
+
+        #region Origem Material
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<OrigemMaterialDto>>> ListarOrigemMaterial()
+        {
+            var retorno = await _cadastroService.ListarOrigemMaterial();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirOrigemMaterial([FromBody] OrigemMaterialDto origemMaterial)
+        {
+            try
+            {
+                await _cadastroService.IncluirOrigemMaterial(origemMaterial);
+
+                return Ok("Origem material incluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarOrigemMaterial([FromBody] OrigemMaterialDto origemMaterial)
+        {
+            try
+            {
+                await _cadastroService.AlterarOrigemMaterial(origemMaterial);
+
+                return Ok("Origem material alterado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region Veiculo
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<VeiculoDto>>> ListarVeiculo()
+        {
+            var retorno = await _cadastroService.ListarVeiculo();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirVeiculo([FromBody] VeiculoDto veiculo)
+        {
+            try
+            {
+                await _cadastroService.IncluirVeiculo(veiculo);
+
+                return Ok("Veículo incluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarVeiculo([FromBody] VeiculoDto veiculo)
+        {
+            try
+            {
+                await _cadastroService.AlterarVeiculo(veiculo);
+
+                return Ok("Veículo alterado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

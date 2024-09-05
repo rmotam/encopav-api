@@ -23,5 +23,17 @@ namespace Services
         Task IncluirTransportadora(TransportadoraDto transportadora);
 
         Task AlterarTransportadora(TransportadoraDto transportadora);
+
+        Task<IEnumerable<OrigemMaterialDto>> ListarOrigemMaterial();
+
+        Task IncluirOrigemMaterial(OrigemMaterialDto origemMaterial);
+
+        Task AlterarOrigemMaterial(OrigemMaterialDto origemMaterial);
+
+        Task<IEnumerable<VeiculoDto>> ListarVeiculo();
+
+        Task IncluirVeiculo(VeiculoDto veiculo);
+
+        Task AlterarVeiculo(VeiculoDto veiculo);
     }
 }

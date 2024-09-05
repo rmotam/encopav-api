@@ -30,5 +30,17 @@ namespace Services
         public async Task IncluirTransportadora(TransportadoraDto transportadora) => await _cadastroRepository.IncluirTransportadora(transportadora);
 
         public async Task AlterarTransportadora(TransportadoraDto transportadora) => await _cadastroRepository.AlterarTransportadora(transportadora);
+
+        public async Task<IEnumerable<OrigemMaterialDto>> ListarOrigemMaterial() => await _cadastroRepository.ListarOrigemMaterial();
+
+        public async Task IncluirOrigemMaterial(OrigemMaterialDto origemMaterial) => await _cadastroRepository.IncluirOrigemMaterial(origemMaterial);
+
+        public async Task AlterarOrigemMaterial(OrigemMaterialDto origemMaterial) => await _cadastroRepository.AlterarOrigemMaterial(origemMaterial);
+
+        public async Task<IEnumerable<VeiculoDto>> ListarVeiculo() => await _cadastroRepository.ListarVeiculo();
+
+        public async Task IncluirVeiculo(VeiculoDto veiculo) => await _cadastroRepository.IncluirVeiculo(veiculo);
+
+        public async Task AlterarVeiculo(VeiculoDto veiculo) => await _cadastroRepository.AlterarVeiculo(veiculo);
     }
 }

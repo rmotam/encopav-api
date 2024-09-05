@@ -131,5 +131,85 @@ namespace Repository
         }
 
         #endregion
+
+        #region Origem Material
+
+        public async Task<IEnumerable<OrigemMaterialDto>> ListarOrigemMaterial()
+        {
+            string sql = "SELECT id_origem as id, nome, endereco, contato FROM encopav_origem;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<OrigemMaterialDto>(sql);
+        }
+
+        public async Task AlterarOrigemMaterial(OrigemMaterialDto origemMaterial)
+        {
+            string sql = "UPDATE encopav_origem SET nome = @Nome, endereco = @Endereco, contato = @Contato WHERE id_origem = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", origemMaterial.Nome, DbType.String);
+            parametros.Add("@Endereco", origemMaterial.Endereco, DbType.String);
+            parametros.Add("@Contato", origemMaterial.Contato, DbType.String);
+            parametros.Add("@Id", origemMaterial.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirOrigemMaterial(OrigemMaterialDto origemMaterial)
+        {
+            string sql = "INSERT INTO encopav_origem (nome, endereco, contato) VALUES (@Nome, @Endereco, @Contato);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", origemMaterial.Nome, DbType.String);
+            parametros.Add("@Endereco", origemMaterial.Endereco, DbType.String);
+            parametros.Add("@Contato", origemMaterial.Contato, DbType.String);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
+
+        #region Veiculo
+
+        public async Task<IEnumerable<VeiculoDto>> ListarVeiculo()
+        {
+            string sql = "SELECT id_veiculo as id, modelo, ano, placa, proprietario FROM encopav_veiculo;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<VeiculoDto>(sql);
+        }
+
+        public async Task AlterarVeiculo(VeiculoDto veiculo)
+        {
+            string sql = "UPDATE encopav_veiculo SET modelo = @Modelo, ano = @Ano, placa = @Placa, proprietario = @Proprietario WHERE id_veiculo = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Modelo", veiculo.Modelo, DbType.String);
+            parametros.Add("@Ano", veiculo.Ano, DbType.String);
+            parametros.Add("@Placa", veiculo.Placa, DbType.String);
+            parametros.Add("@Proprietario", veiculo.Proprietario, DbType.String);
+            parametros.Add("@Id", veiculo.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirVeiculo(VeiculoDto veiculo)
+        {
+            string sql = "INSERT INTO encopav_veiculo (modelo, ano, placa, proprietario) VALUES (@Modelo, @Ano, @Placa, @Proprietario);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Modelo", veiculo.Modelo, DbType.String);
+            parametros.Add("@Ano", veiculo.Ano, DbType.String);
+            parametros.Add("@Placa", veiculo.Placa, DbType.String);
+            parametros.Add("@Proprietario", veiculo.Proprietario, DbType.String);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
     }
 }
