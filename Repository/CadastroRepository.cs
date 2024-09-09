@@ -99,7 +99,7 @@ namespace Repository
 
         public async Task<IEnumerable<TransportadoraDto>> ListarTransportadora()
         {
-            string sql = "SELECT id_fornecedor as id, nome, cpf_cnpj as CpfCnpj FROM encopav_transportadora;";
+            string sql = "SELECT id_transportadora as id, nome, cpf_cnpj as CpfCnpj FROM encopav_transportadora;";
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<TransportadoraDto>(sql);
@@ -107,7 +107,7 @@ namespace Repository
 
         public async Task AlterarTransportadora(TransportadoraDto transportadora)
         {
-            string sql = "UPDATE encopav_transportadora SET nome = @Nome, cpf_cnpj = @CpfCnpj WHERE id_fornecedor = @Id;";
+            string sql = "UPDATE encopav_transportadora SET nome = @Nome, cpf_cnpj = @CpfCnpj WHERE id_transportadora = @Id;";
 
             DynamicParameters parametros = new();
             parametros.Add("@Nome", transportadora.Nome, DbType.String);

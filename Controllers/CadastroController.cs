@@ -129,7 +129,7 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<TransportadoraDto>>> ListarTransportadora()
         {
-            var retorno = await _cadastroService.ListarFornecedor();
+            var retorno = await _cadastroService.ListarTransportadora();
 
             if (retorno == null)
             {
