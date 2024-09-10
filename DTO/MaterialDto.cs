@@ -10,6 +10,6 @@
 
         public int IdUnidadeMedida { get; set; }
 
-        public string DescricaoUnidadeMedida { get; set; }
+        public string? DescricaoUnidadeMedida { get; set; }
     }
 }
