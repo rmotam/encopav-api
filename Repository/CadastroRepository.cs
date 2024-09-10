@@ -27,7 +27,7 @@ namespace Repository
 
         public async Task<IEnumerable<UnidadeMedidaDto>> ListarUnidadesMedida()
         {
-            string sql = "SELECT id_unidade as id, descricao FROM encopav_unidade_medida;";
+            string sql = "SELECT id_unidade_medida as id, descricao FROM encopav_unidade_medida;";
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<UnidadeMedidaDto>(sql);
@@ -35,7 +35,7 @@ namespace Repository
 
         public async Task AlterarUnidadeMedida(UnidadeMedidaDto unidadeMedida)
         {
-            string sql = "UPDATE encopav_unidade_medida SET descricao = @Descricao WHERE id_unidade = @Id;";
+            string sql = "UPDATE encopav_unidade_medida SET descricao = @Descricao WHERE id_unidade_medida = @Id;";
 
             DynamicParameters parametros = new();
             parametros.Add("@Descricao", unidadeMedida.Descricao, DbType.String);
