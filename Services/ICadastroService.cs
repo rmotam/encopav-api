@@ -41,5 +41,17 @@ namespace Services
         Task IncluirObra(ObraDto obra);
 
         Task AlterarObra(ObraDto obra);
+
+        Task<IEnumerable<FaixaCbuqDto>> ListarFaixaCbuq();
+
+        Task IncluirFaixaCbuq(FaixaCbuqDto faixaCbuq);
+
+        Task AlterarFaixaCbuq(FaixaCbuqDto faixaCbuq);
+
+        Task<IEnumerable<TipoCapDto>> ListarTipoCap();
+
+        Task IncluirTipoCap(TipoCapDto tipoCap);
+
+        Task AlterarTipoCap(TipoCapDto tipoCap);
     }
 }

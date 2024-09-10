@@ -41,5 +41,17 @@ namespace Repository
         Task AlterarObra(ObraDto obra);
 
         Task IncluirObra(ObraDto obra);
+
+        Task<IEnumerable<FaixaCbuqDto>> ListarFaixaCbuq();
+
+        Task AlterarFaixaCbuq(FaixaCbuqDto faixaCbuq);
+
+        Task IncluirFaixaCbuq(FaixaCbuqDto faixaCbuq);
+
+        Task<IEnumerable<TipoCapDto>> ListarTipoCap();
+
+        Task AlterarTipoCap(TipoCapDto tipoCap);
+
+        Task IncluirTipoCap(TipoCapDto tipoCap);
     }
 }

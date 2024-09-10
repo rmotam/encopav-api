@@ -48,5 +48,17 @@ namespace Services
         public async Task IncluirObra(ObraDto obra) => await _cadastroRepository.IncluirObra(obra);
 
         public async Task AlterarObra(ObraDto obra) => await _cadastroRepository.AlterarObra(obra);
+
+        public async Task<IEnumerable<FaixaCbuqDto>> ListarFaixaCbuq() => await _cadastroRepository.ListarFaixaCbuq();
+
+        public async Task IncluirFaixaCbuq(FaixaCbuqDto faixaCbuq) => await _cadastroRepository.IncluirFaixaCbuq(faixaCbuq);
+
+        public async Task AlterarFaixaCbuq(FaixaCbuqDto faixaCbuq) => await _cadastroRepository.AlterarFaixaCbuq(faixaCbuq);
+
+        public async Task<IEnumerable<TipoCapDto>> ListarTipoCap() => await _cadastroRepository.ListarTipoCap();
+
+        public async Task IncluirTipoCap(TipoCapDto tipoCap) => await _cadastroRepository.IncluirTipoCap(tipoCap);
+
+        public async Task AlterarTipoCap(TipoCapDto tipoCap) => await _cadastroRepository.AlterarTipoCap(tipoCap);
     }
 }

@@ -322,5 +322,105 @@ namespace Controllers
         }
 
         #endregion
+
+        #region Faixa CBUQ
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<FaixaCbuqDto>>> ListarFaixaCbuq()
+        {
+            var retorno = await _cadastroService.ListarFaixaCbuq();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirFaixaCbuq([FromBody] FaixaCbuqDto faixaCbuq)
+        {
+            try
+            {
+                await _cadastroService.IncluirFaixaCbuq(faixaCbuq);
+
+                return Ok("Faixa CBUQ incluída com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarFaixaCbuq([FromBody] FaixaCbuqDto faixaCbuq)
+        {
+            try
+            {
+                await _cadastroService.AlterarFaixaCbuq(faixaCbuq);
+
+                return Ok("Faixa CBUQ alterada com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region Tipo CAP
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<TipoCapDto>>> ListarTipoCap()
+        {
+            var retorno = await _cadastroService.ListarTipoCap();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirTipoCap([FromBody] TipoCapDto tipoCap)
+        {
+            try
+            {
+                await _cadastroService.IncluirTipoCap(tipoCap);
+
+                return Ok("Tipo CAP incluída com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarTipoCap([FromBody] TipoCapDto tipoCap)
+        {
+            try
+            {
+                await _cadastroService.AlterarTipoCap(tipoCap);
+
+                return Ok("Tipo CAP alterada com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

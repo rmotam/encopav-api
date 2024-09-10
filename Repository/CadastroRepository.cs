@@ -45,12 +45,12 @@ namespace Repository
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task IncluirUnidadeMedida(UnidadeMedidaDto unidadeMedida)
+        public async Task IncluirUnidadeMedida(UnidadeMedidaDto unidade)
         {
             string sql = "INSERT INTO encopav_unidade_medida (descricao) VALUES (@Descricao);";
 
             DynamicParameters parametros = new();
-            parametros.Add("@Descricao", unidadeMedida.Descricao, DbType.String);
+            parametros.Add("@Descricao", unidade.Descricao, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
@@ -250,6 +250,80 @@ namespace Repository
             parametros.Add("@DataInicio", obra.DataInicio, DbType.DateTime);
             parametros.Add("@DataTermino", obra.DataTermino, DbType.DateTime);
             parametros.Add("@Situacao", obra.Situacao, DbType.Boolean);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
+
+        #region Faixa CBUQ
+
+        public async Task<IEnumerable<FaixaCbuqDto>> ListarFaixaCbuq()
+        {
+            string sql = "SELECT id_faixa_cbuq as id, nome, descricao FROM encopav_faixa_cbuq;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<FaixaCbuqDto>(sql);
+        }
+
+        public async Task AlterarFaixaCbuq(FaixaCbuqDto faixaCbuq)
+        {
+            string sql = "UPDATE encopav_faixa_cbuq SET nome = @Nome, descricao = @Descricao WHERE id_faixa_cbuq = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", faixaCbuq.Nome, DbType.String);
+            parametros.Add("@Descricao", faixaCbuq.Descricao, DbType.String);
+            parametros.Add("@Id", faixaCbuq.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirFaixaCbuq(FaixaCbuqDto faixaCbuq)
+        {
+            string sql = "INSERT INTO encopav_faixa_cbuq (nome, descricao) VALUES (@Nome, @Descricao);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", faixaCbuq.Nome, DbType.String);
+            parametros.Add("@Descricao", faixaCbuq.Descricao, DbType.String);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
+
+        #region Tipo CAP
+
+        public async Task<IEnumerable<TipoCapDto>> ListarTipoCap()
+        {
+            string sql = "SELECT id_tipo_cap as id, nome, descricao FROM encopav_tipo_cap;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<TipoCapDto>(sql);
+        }
+
+        public async Task AlterarTipoCap(TipoCapDto tipoCap)
+        {
+            string sql = "UPDATE encopav_tipo_cap SET nome = @Nome, descricao = @Descricao WHERE id_tipo_cap = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", tipoCap.Nome, DbType.String);
+            parametros.Add("@Descricao", tipoCap.Descricao, DbType.String);
+            parametros.Add("@Id", tipoCap.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirTipoCap(TipoCapDto tipoCap)
+        {
+            string sql = "INSERT INTO encopav_tipo_cap (nome, descricao) VALUES (@Nome, @Descricao);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", tipoCap.Nome, DbType.String);
+            parametros.Add("@Descricao", tipoCap.Descricao, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
