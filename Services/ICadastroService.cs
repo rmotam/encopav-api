@@ -6,6 +6,8 @@ namespace Services
     {
         Task<string> Teste();
 
+        Task<IEnumerable<GrupoDto>> ListarGrupo();
+
         Task<IEnumerable<UnidadeMedidaDto>> ListarUnidadesMedida();
 
         Task IncluirUnidadeMedida(UnidadeMedidaDto unidadeMedida);

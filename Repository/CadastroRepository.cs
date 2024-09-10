@@ -23,6 +23,14 @@ namespace Repository
             return "Rodando";
         }
 
+        public async Task<IEnumerable<GrupoDto>> ListarGrupo()
+        {
+            string sql = "SELECT id_grupo as id, nome FROM encopav_grupo;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<GrupoDto>(sql);
+        }
+
         #region Unidade Medida
 
         public async Task<IEnumerable<UnidadeMedidaDto>> ListarUnidadesMedida()

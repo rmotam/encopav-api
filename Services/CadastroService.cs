@@ -13,6 +13,8 @@ namespace Services
 
         public async Task<string> Teste() => await _cadastroRepository.Teste();
 
+        public async Task<IEnumerable<GrupoDto>> ListarGrupo() => await _cadastroRepository.ListarGrupo();
+
         public async Task<IEnumerable<UnidadeMedidaDto>> ListarUnidadesMedida() => await _cadastroRepository.ListarUnidadesMedida();
 
         public async Task IncluirUnidadeMedida(UnidadeMedidaDto unidadeMedida) => await _cadastroRepository.IncluirUnidadeMedida(unidadeMedida);
@@ -66,5 +68,6 @@ namespace Services
         public async Task IncluirMaterial(MaterialDto material) => await _cadastroRepository.IncluirMaterial(material);
 
         public async Task AlterarMaterial(MaterialDto material) => await _cadastroRepository.AlterarMaterial(material);
+
     }
 }

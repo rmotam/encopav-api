@@ -59,5 +59,7 @@ namespace Repository
         Task AlterarMaterial(MaterialDto material);
 
         Task IncluirMaterial(MaterialDto material);
+
+        Task<IEnumerable<GrupoDto>> ListarGrupo();
     }
 }

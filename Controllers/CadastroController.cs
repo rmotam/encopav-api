@@ -15,12 +15,25 @@ namespace Controllers
             _cadastroService = cadastroService;
         }
 
-
         [HttpGet]
         [Authorize("Bearer")]
         public IActionResult Teste()
         {
             return Ok(Task.Run(() => _cadastroService.Teste()).Result);
+        }
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<GrupoDto>>> ListarGrupo()
+        {
+            var retorno = await _cadastroService.ListarGrupo();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
         }
 
         #region Unidade Medida
