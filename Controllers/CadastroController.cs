@@ -429,7 +429,7 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<MaterialDto>>> ListarMaterial()
         {
-            var retorno = await _cadastroService.ListarTipoCap();
+            var retorno = await _cadastroService.ListarMaterial();
 
             if (retorno == null)
             {
