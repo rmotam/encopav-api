@@ -351,7 +351,7 @@ namespace Repository
             DynamicParameters parametros = new();
             parametros.Add("@Nome", material.Nome, DbType.String);
             parametros.Add("@Descricao", material.Descricao, DbType.String);
-            parametros.Add("@IdUnidadeMedida", material.Id, DbType.Int32);
+            parametros.Add("@IdUnidadeMedida", material.IdUnidadeMedida, DbType.Int32);
             parametros.Add("@Id", material.Id, DbType.Int32);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
@@ -365,7 +365,7 @@ namespace Repository
             DynamicParameters parametros = new();
             parametros.Add("@Nome", material.Nome, DbType.String);
             parametros.Add("@Descricao", material.Descricao, DbType.String);
-            parametros.Add("@IdUnidadeMedida", material.Id, DbType.Int32);
+            parametros.Add("@IdUnidadeMedida", material.IdUnidadeMedida, DbType.Int32);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
