@@ -33,24 +33,24 @@ namespace Repository
             return await conexao.QueryAsync<UnidadeMedidaDto>(sql);
         }
 
-        public async Task AlterarUnidadeMedida(UnidadeMedidaDto unidade)
+        public async Task AlterarUnidadeMedida(UnidadeMedidaDto unidadeMedida)
         {
             string sql = "UPDATE encopav_unidade_medida SET descricao = @Descricao WHERE id_unidade = @Id;";
 
             DynamicParameters parametros = new();
-            parametros.Add("@Descricao", unidade.Descricao, DbType.String);
-            parametros.Add("@Id", unidade.Id, DbType.Int32);
+            parametros.Add("@Descricao", unidadeMedida.Descricao, DbType.String);
+            parametros.Add("@Id", unidadeMedida.Id, DbType.Int32);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task IncluirUnidadeMedida(UnidadeMedidaDto unidade)
+        public async Task IncluirUnidadeMedida(UnidadeMedidaDto unidadeMedida)
         {
             string sql = "INSERT INTO encopav_unidade_medida (descricao) VALUES (@Descricao);";
 
             DynamicParameters parametros = new();
-            parametros.Add("@Descricao", unidade.Descricao, DbType.String);
+            parametros.Add("@Descricao", unidadeMedida.Descricao, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
@@ -328,6 +328,54 @@ namespace Repository
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
         }
+
+        #endregion
+
+        #region Material
+
+        public async Task<IEnumerable<MaterialDto>> ListarMaterial()
+        {
+            string sql = @"SELECT a.id_material as id, a.nome, a.descricao, a.id_unidade_medida as idUnidadeMedida, b.descricao as descricaoUnidadeMedida
+                        FROM encopav_material a
+                        INNER JOIN encopav_unidade_medida b
+                        ON a.id_unidade_medida = b.id_unidade_medida;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<MaterialDto>(sql);
+        }
+
+        public async Task AlterarMaterial(MaterialDto material)
+        {
+            string sql = "UPDATE encopav_material SET nome = @Nome, descricao = @Descricao, id_unidade_medida = @IdUnidadeMedida WHERE id_material = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", material.Nome, DbType.String);
+            parametros.Add("@Descricao", material.Descricao, DbType.String);
+            parametros.Add("@IdUnidadeMedida", material.Id, DbType.Int32);
+            parametros.Add("@Id", material.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirMaterial(MaterialDto material)
+        {
+            string sql = "INSERT INTO encopav_material (nome, descricao, id_unidade_medida) VALUES (@Nome, @Descricao, @IdUnidadeMedida);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", material.Nome, DbType.String);
+            parametros.Add("@Descricao", material.Descricao, DbType.String);
+            parametros.Add("@IdUnidadeMedida", material.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
+
+        #region Tipo Serviço
+
+
 
         #endregion
     }

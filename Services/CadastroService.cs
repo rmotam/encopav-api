@@ -60,5 +60,11 @@ namespace Services
         public async Task IncluirTipoCap(TipoCapDto tipoCap) => await _cadastroRepository.IncluirTipoCap(tipoCap);
 
         public async Task AlterarTipoCap(TipoCapDto tipoCap) => await _cadastroRepository.AlterarTipoCap(tipoCap);
+
+        public async Task<IEnumerable<MaterialDto>> ListarMaterial() => await _cadastroRepository.ListarMaterial();
+
+        public async Task IncluirMaterial(MaterialDto material) => await _cadastroRepository.IncluirMaterial(material);
+
+        public async Task AlterarMaterial(MaterialDto material) => await _cadastroRepository.AlterarMaterial(material);
     }
 }

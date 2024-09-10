@@ -53,5 +53,11 @@ namespace Services
         Task IncluirTipoCap(TipoCapDto tipoCap);
 
         Task AlterarTipoCap(TipoCapDto tipoCap);
+
+        Task<IEnumerable<MaterialDto>> ListarMaterial();
+
+        Task IncluirMaterial(MaterialDto material);
+
+        Task AlterarMaterial(MaterialDto material);
     }
 }

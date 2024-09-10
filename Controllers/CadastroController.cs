@@ -422,5 +422,55 @@ namespace Controllers
         }
 
         #endregion
+
+        #region Material
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<MaterialDto>>> ListarMaterial()
+        {
+            var retorno = await _cadastroService.ListarTipoCap();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirMaterial([FromBody] MaterialDto material)
+        {
+            try
+            {
+                await _cadastroService.IncluirMaterial(material);
+
+                return Ok("Material incluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarMaterial([FromBody] MaterialDto material)
+        {
+            try
+            {
+                await _cadastroService.AlterarMaterial(material);
+
+                return Ok("Material alterado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

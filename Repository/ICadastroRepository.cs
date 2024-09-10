@@ -8,7 +8,7 @@ namespace Repository
 
         Task IncluirUnidadeMedida(UnidadeMedidaDto unidadeMedida);
 
-        Task AlterarUnidadeMedida(UnidadeMedidaDto unidade);
+        Task AlterarUnidadeMedida(UnidadeMedidaDto unidadeMedida);
 
         Task<IEnumerable<UnidadeMedidaDto>> ListarUnidadesMedida();
 
@@ -53,5 +53,11 @@ namespace Repository
         Task AlterarTipoCap(TipoCapDto tipoCap);
 
         Task IncluirTipoCap(TipoCapDto tipoCap);
+
+        Task<IEnumerable<MaterialDto>> ListarMaterial();
+
+        Task AlterarMaterial(MaterialDto material);
+
+        Task IncluirMaterial(MaterialDto material);
     }
 }
