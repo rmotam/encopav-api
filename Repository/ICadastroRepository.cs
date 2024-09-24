@@ -61,5 +61,13 @@ namespace Repository
         Task IncluirMaterial(MaterialDto material);
 
         Task<IEnumerable<GrupoDto>> ListarGrupo();
+
+        Task<IEnumerable<TipoServicoDto>> ListarTipoServico();
+
+        Task<IEnumerable<TipoServicoDto>> ListarTipoServico(int IdGrupo);
+
+        Task AlterarTipoServico(TipoServicoDto tipoServico);
+
+        Task IncluirTipoServico(TipoServicoDto tipoServico);
     }
 }

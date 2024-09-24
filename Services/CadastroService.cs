@@ -69,5 +69,13 @@ namespace Services
 
         public async Task AlterarMaterial(MaterialDto material) => await _cadastroRepository.AlterarMaterial(material);
 
+        public async Task<IEnumerable<TipoServicoDto>> ListarTipoServico() => await _cadastroRepository.ListarTipoServico();
+
+        public async Task<IEnumerable<TipoServicoDto>> ListarTipoServico(int IdGrupo) => await _cadastroRepository.ListarTipoServico(IdGrupo);
+
+        public async Task IncluirTipoServico(TipoServicoDto tipoServico) => await _cadastroRepository.IncluirTipoServico(tipoServico);
+
+        public async Task AlterarTipoServico(TipoServicoDto tipoServico) => await _cadastroRepository.AlterarTipoServico(tipoServico);
+
     }
 }

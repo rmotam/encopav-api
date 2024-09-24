@@ -485,5 +485,69 @@ namespace Controllers
         }
 
         #endregion
+
+        #region Tipo Servico
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<TipoServicoDto>>> ListarTipoServico()
+        {
+            var retorno = await _cadastroService.ListarTipoServico();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpGet("{IdGrupo}")]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<TipoServicoDto>>> ListarTipoServico(int IdGrupo)
+        {
+            var retorno = await _cadastroService.ListarTipoServico(IdGrupo);
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirTipoServico([FromBody] TipoServicoDto tipoServico)
+        {
+            try
+            {
+                await _cadastroService.IncluirTipoServico(tipoServico);
+
+                return Ok("Tipo serviço incluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarTipoServico([FromBody] TipoServicoDto tipoServico)
+        {
+            try
+            {
+                await _cadastroService.AlterarTipoServico(tipoServico);
+
+                return Ok("Tipo serviço alterado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

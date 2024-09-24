@@ -61,5 +61,13 @@ namespace Services
         Task IncluirMaterial(MaterialDto material);
 
         Task AlterarMaterial(MaterialDto material);
+
+        Task<IEnumerable<TipoServicoDto>> ListarTipoServico();
+
+        Task<IEnumerable<TipoServicoDto>> ListarTipoServico(int IdGrupo);
+
+        Task IncluirTipoServico(TipoServicoDto tipoServico);
+
+        Task AlterarTipoServico(TipoServicoDto tipoServico);
     }
 }

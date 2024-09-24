@@ -383,8 +383,56 @@ namespace Repository
 
         #region Tipo Serviço
 
+        public async Task<IEnumerable<TipoServicoDto>> ListarTipoServico()
+        {
+            string sql = "SELECT id_tipo_servico as id, nome, descricao, id_grupo as IdGrupo, id_unidade_medida as IdUnidadeMedida FROM encopav_tipo_servico;";
 
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<TipoServicoDto>(sql);
+        }
+
+        public async Task<IEnumerable<TipoServicoDto>> ListarTipoServico(int IdGrupo)
+        {
+            string sql = "SELECT id_tipo_servico as id, nome, descricao, id_grupo as IdGrupo, id_unidade_medida as IdUnidadeMedida FROM encopav_tipo_servico WHERE id_grupo = @IdGrupo;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@IdGrupo", IdGrupo, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<TipoServicoDto>(sql, parametros);
+        }
+
+        public async Task AlterarTipoServico(TipoServicoDto tipoServico)
+        {
+            string sql = @"UPDATE encopav_tipo_servico SET nome = @Nome, descricao = @Descricao, id_grupo = @IdGrupo, id_unidade_medida = @IdUnidadeMedida 
+                            WHERE id_tipo_servico = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", tipoServico.Nome, DbType.String);
+            parametros.Add("@Descricao", tipoServico.Descricao, DbType.String);
+            parametros.Add("@IdGrupo", tipoServico.IdGrupo, DbType.Int32);
+            parametros.Add("@IdUnidadeMedida", tipoServico.IdUnidadeMedida, DbType.Int32);
+            parametros.Add("@Id", tipoServico.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirTipoServico(TipoServicoDto tipoServico)
+        {
+            string sql = "INSERT INTO encopav_tipo_servico (id_grupo, id_unidade_medida, nome, descricao) VALUES (@IdGrupo, @IdUnidadeMedida, @Nome, @Descricao);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", tipoServico.Nome, DbType.String);
+            parametros.Add("@Descricao", tipoServico.Descricao, DbType.String);
+            parametros.Add("@IdGrupo", tipoServico.IdGrupo, DbType.Int32);
+            parametros.Add("@IdUnidadeMedida", tipoServico.IdUnidadeMedida, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
 
         #endregion
+
     }
 }
