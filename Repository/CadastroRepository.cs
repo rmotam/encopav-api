@@ -401,7 +401,7 @@ namespace Repository
                                 ON a.id_grupo = b.id_grupo
                             INNER JOIN encopav_unidade_medida c
                                 ON a.id_unidade_medida = c.id_unidade_medida
-                            WHERE id_grupo = @IdGrupo AND ativo = 1
+                            WHERE a.id_grupo = @IdGrupo AND a.ativo = 1
                             ORDER BY a.nome;";
 
             DynamicParameters parametros = new();
