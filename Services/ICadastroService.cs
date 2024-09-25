@@ -69,5 +69,7 @@ namespace Services
         Task IncluirTipoServico(TipoServicoDto tipoServico);
 
         Task AlterarTipoServico(TipoServicoDto tipoServico);
+
+        Task AtivarDesativarTipoServico(int idTipoServico, bool ativo);
     }
 }

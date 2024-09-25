@@ -77,5 +77,7 @@ namespace Services
 
         public async Task AlterarTipoServico(TipoServicoDto tipoServico) => await _cadastroRepository.AlterarTipoServico(tipoServico);
 
+        public async Task AtivarDesativarTipoServico(int idTipoServico, bool ativo) => await _cadastroRepository.AtivarDesativarTipoServico(idTipoServico, ativo);
+
     }
 }

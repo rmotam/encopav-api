@@ -69,5 +69,7 @@ namespace Repository
         Task AlterarTipoServico(TipoServicoDto tipoServico);
 
         Task IncluirTipoServico(TipoServicoDto tipoServico);
+
+        Task AtivarDesativarTipoServico(int idTipoServico, bool ativo);
     }
 }

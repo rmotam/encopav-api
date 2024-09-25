@@ -548,6 +548,24 @@ namespace Controllers
             }
         }
 
+        [HttpPut("{idTipoServico}/{ativo}")]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AtivarDesativarTipoServico(int idTipoServico, bool ativo)
+        {
+            try
+            {
+                await _cadastroService.AtivarDesativarTipoServico(idTipoServico, ativo);
+
+                string situacao = ativo ? "ativado" : "desativado";
+
+                return Ok($"Tipo serviço {situacao} com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         #endregion
     }
 }
