@@ -70,7 +70,7 @@ namespace Repository
 
         public async Task<IEnumerable<FornecedorDto>> ListarFornecedor()
         {
-            string sql = "SELECT id_fornecedor as id, nome, cpf_cnpj as CpfCnpj FROM encopav_fornecedor;";
+            string sql = "SELECT id_fornecedor as id, nome, cpf_cnpj as CpfCnpj, contato, endereco FROM encopav_fornecedor;";
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<FornecedorDto>(sql);
@@ -78,11 +78,13 @@ namespace Repository
 
         public async Task AlterarFornecedor(FornecedorDto fornecedor)
         {
-            string sql = "UPDATE encopav_fornecedor SET nome = @Nome, cpf_cnpj = @CpfCnpj WHERE id_fornecedor = @Id;";
+            string sql = "UPDATE encopav_fornecedor SET nome = @Nome, cpf_cnpj = @CpfCnpj, contato = @Contato, endereco = @Endereco WHERE id_fornecedor = @Id;";
 
             DynamicParameters parametros = new();
             parametros.Add("@Nome", fornecedor.Nome, DbType.String);
             parametros.Add("@CpfCnpj", fornecedor.CpfCnpj, DbType.String);
+            parametros.Add("@Contato", fornecedor.Contato, DbType.String);
+            parametros.Add("@Endereco", fornecedor.Endereco, DbType.String);
             parametros.Add("@Id", fornecedor.Id, DbType.Int32);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
@@ -91,11 +93,13 @@ namespace Repository
 
         public async Task IncluirFornecedor(FornecedorDto fornecedor)
         {
-            string sql = "INSERT INTO encopav_fornecedor (nome, cpf_cnpj) VALUES (@Nome, @CpfCnpj);";
+            string sql = "INSERT INTO encopav_fornecedor (nome, cpf_cnpj, contato, endereco) VALUES (@Nome, @CpfCnpj, @Contato, @Endereco);";
 
             DynamicParameters parametros = new();
             parametros.Add("@Nome", fornecedor.Nome, DbType.String);
             parametros.Add("@CpfCnpj", fornecedor.CpfCnpj, DbType.String);
+            parametros.Add("@Contato", fornecedor.Contato, DbType.String);
+            parametros.Add("@Endereco", fornecedor.Endereco, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
@@ -183,7 +187,10 @@ namespace Repository
 
         public async Task<IEnumerable<VeiculoDto>> ListarVeiculo()
         {
-            string sql = "SELECT id_veiculo as id, modelo, ano, placa, proprietario FROM encopav_veiculo;";
+            string sql = @"SELECT a.id_veiculo as id, a.modelo, a.ano, a.placa, a.proprietario, a.id_fornecedor as IdFornecedor. b.nome as NomeFornecedor
+                        FROM encopav_veiculo a
+                        INNER JON encopav_fornecedor b
+                        ON a.id_fornecedor = b.id_fornecedor;";
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<VeiculoDto>(sql);
@@ -206,9 +213,10 @@ namespace Repository
 
         public async Task IncluirVeiculo(VeiculoDto veiculo)
         {
-            string sql = "INSERT INTO encopav_veiculo (modelo, ano, placa, proprietario) VALUES (@Modelo, @Ano, @Placa, @Proprietario);";
+            string sql = "INSERT INTO encopav_veiculo (id_fornecedor, modelo, ano, placa, proprietario) VALUES (@IdFornecedor, @Modelo, @Ano, @Placa, @Proprietario);";
 
             DynamicParameters parametros = new();
+            parametros.Add("@IdFornecedor", veiculo.Id, DbType.Int32);
             parametros.Add("@Modelo", veiculo.Modelo, DbType.String);
             parametros.Add("@Ano", veiculo.Ano, DbType.String);
             parametros.Add("@Placa", veiculo.Placa, DbType.String);
