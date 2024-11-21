@@ -216,7 +216,7 @@ namespace Repository
             string sql = "INSERT INTO encopav_veiculo (id_fornecedor, modelo, ano, placa, proprietario) VALUES (@IdFornecedor, @Modelo, @Ano, @Placa, @Proprietario);";
 
             DynamicParameters parametros = new();
-            parametros.Add("@IdFornecedor", veiculo.Id, DbType.Int32);
+            parametros.Add("@IdFornecedor", veiculo.IdFornecedor, DbType.Int32);
             parametros.Add("@Modelo", veiculo.Modelo, DbType.String);
             parametros.Add("@Ano", veiculo.Ano, DbType.String);
             parametros.Add("@Placa", veiculo.Placa, DbType.String);
