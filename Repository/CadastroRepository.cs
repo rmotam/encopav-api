@@ -465,5 +465,45 @@ namespace Repository
 
         #endregion
 
+        #region Trecho
+
+        public async Task<IEnumerable<TrechoDto>> ListarTrecho(int idObra)
+        {
+            string sql = "SELECT id_trecho as id, nome, descricao FROM encopav_trecho WHERE id_obra = @IdObra;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@IdObra", idObra, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<TrechoDto>(sql, parametros);
+        }
+
+        public async Task AlterarTrecho(TrechoDto trecho)
+        {
+            string sql = "UPDATE encopav_trecho SET nome = @Nome, descricao = @Descricao WHERE id_trecho = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", trecho.Nome, DbType.String);
+            parametros.Add("@Descricao", trecho.Descricao, DbType.String);
+            parametros.Add("@Id", trecho.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirTrecho(TrechoDto trecho)
+        {
+            string sql = "INSERT INTO encopav_trecho (nome, descricao, id_obra) VALUES (@Nome, @Descricao, @IdObra);";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", trecho.Nome, DbType.String);
+            parametros.Add("@Descricao", trecho.Descricao, DbType.String);
+            parametros.Add("@IdObra", trecho.IdObra, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
     }
 }

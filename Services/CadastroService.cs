@@ -79,5 +79,11 @@ namespace Services
 
         public async Task AtivarDesativarTipoServico(int idTipoServico, bool ativo) => await _cadastroRepository.AtivarDesativarTipoServico(idTipoServico, ativo);
 
+        public async Task<IEnumerable<TrechoDto>> ListarTrecho(int IdObra) => await _cadastroRepository.ListarTrecho(IdObra);
+
+        public async Task IncluirTrecho(TrechoDto trecho) => await _cadastroRepository.IncluirTrecho(trecho);
+
+        public async Task AlterarTrecho(TrechoDto trecho) => await _cadastroRepository.AlterarTrecho(trecho);
+
     }
 }

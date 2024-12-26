@@ -71,5 +71,11 @@ namespace Repository
         Task IncluirTipoServico(TipoServicoDto tipoServico);
 
         Task AtivarDesativarTipoServico(int idTipoServico, bool ativo);
+
+        Task<IEnumerable<TrechoDto>> ListarTrecho(int idObra);
+
+        Task AlterarTrecho(TrechoDto trecho);
+
+        Task IncluirTrecho(TrechoDto trecho);
     }
 }

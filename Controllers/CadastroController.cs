@@ -567,5 +567,55 @@ namespace Controllers
         }
 
         #endregion
+
+        #region Trecho
+
+        [HttpGet("{idObra}")]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<TrechoDto>>> ListarTrecho(int idObra)
+        {
+            var retorno = await _cadastroService.ListarTipoServico(idObra);
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirTrecho([FromBody] TrechoDto trecho)
+        {
+            try
+            {
+                await _cadastroService.IncluirTrecho(trecho);
+
+                return Ok("Tipo serviço incluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarTrecho([FromBody] TrechoDto trecho)
+        {
+            try
+            {
+                await _cadastroService.AlterarTrecho(trecho);
+
+                return Ok("Tipo serviço alterado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

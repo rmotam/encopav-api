@@ -71,5 +71,11 @@ namespace Services
         Task AlterarTipoServico(TipoServicoDto tipoServico);
 
         Task AtivarDesativarTipoServico(int idTipoServico, bool ativo);
+
+        Task<IEnumerable<TrechoDto>> ListarTrecho(int IdObra);
+
+        Task IncluirTrecho(TrechoDto trecho);
+
+        Task AlterarTrecho(TrechoDto trecho);
     }
 }
