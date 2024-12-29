@@ -8,7 +8,7 @@
 
         public string NumeroNotaFiscal { get; set; }
 
-        public bool PagoPor {  get; set; }
+        public string PagoPor {  get; set; }
 
         public int IdFornecedor { get; set; }
 
