@@ -17,5 +17,9 @@ namespace Services
         public async Task RegistrarSaidaUsina(SaidaUsinaDto saidaUsina) => await _usinaRepository.RegistrarSaidaUsina(saidaUsina);
 
         public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap) => await _usinaRepository.RegistrarEstoqueCap(estoqueCap);
+
+        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento) => await _usinaRepository.ListarEntradaUsina(dataMovimento);
+
+        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento) => await _usinaRepository.ListarSaidaUsina(dataMovimento);
     }
 }

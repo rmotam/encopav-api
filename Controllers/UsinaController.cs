@@ -16,11 +16,6 @@ namespace Controllers
             _usinaService = usinaService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Authorize("Bearer")]
         public async Task<IActionResult> RegistrarEntradaUsina([FromBody] EntradaUsinaDto entradaUsina)
@@ -67,6 +62,34 @@ namespace Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<EntradaUsinaCompletaDto>>> ListarEntradaUsina(DateTime dataMovimento)
+        {
+            var retorno = await _usinaService.ListarEntradaUsina(dataMovimento);
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<SaidaUsinaCompletaDto>>> ListarSaidaUsina(DateTime dataMovimento)
+        {
+            var retorno = await _usinaService.ListarSaidaUsina(dataMovimento);
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
         }
     }
 }

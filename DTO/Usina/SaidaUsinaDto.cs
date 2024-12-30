@@ -2,13 +2,13 @@
 {
     public class SaidaUsinaDto
     {
-        public string NumeroNotaFiscal { get; set; }
+        public string? NumeroNotaFiscal { get; set; }
 
         public int IdMaterial { get; set; }
 
         public int IdVeiculo { get; set; }
 
-        public string TicketBalanca { get; set; }
+        public string? TicketBalanca { get; set; }
 
         public int PesoEntrada { get; set; }
 
