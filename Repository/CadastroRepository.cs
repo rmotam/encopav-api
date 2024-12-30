@@ -507,7 +507,7 @@ namespace Repository
 
         public async Task ExcluirTrecho(int idTrecho)
         {
-            string sql = "DELETE encopav_trecho WHERE id_trecho = @IdTrecho;";
+            string sql = "DELETE FROM encopav_trecho WHERE id_trecho = @IdTrecho;";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdTrecho", idTrecho, DbType.Int32);

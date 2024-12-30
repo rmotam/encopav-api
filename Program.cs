@@ -78,7 +78,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<ICadastroService, CadastroService>();
+builder.Services.AddScoped<IUsinaService, UsinaService>();
 builder.Services.AddScoped<ICadastroRepository, CadastroRepository>();
+builder.Services.AddScoped<IUsinaRepository, UsinaRepository>();
 
 var conexao = builder.Configuration["MySQLConnection:MySQLConnectionString"];
 builder.Services.AddSingleton(CriarParametrosConexao(conexao));
