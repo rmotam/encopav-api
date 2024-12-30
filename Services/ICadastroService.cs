@@ -40,7 +40,7 @@ namespace Services
 
         Task<IEnumerable<ObraDto>> ListarObra();
 
-        Task IncluirObra(ObraDto obra);
+        Task<int> IncluirObra(ObraDto obra);
 
         Task AlterarObra(ObraDto obra);
 

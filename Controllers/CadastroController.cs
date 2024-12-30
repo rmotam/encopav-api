@@ -304,18 +304,9 @@ namespace Controllers
 
         [HttpPost]
         [Authorize("Bearer")]
-        public async Task<IActionResult> IncluirObra([FromBody] ObraDto obra)
+        public async Task<int> IncluirObra([FromBody] ObraDto obra)
         {
-            try
-            {
-                await _cadastroService.IncluirObra(obra);
-
-                return Ok("Obra incluída com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return await _cadastroService.IncluirObra(obra);
         }
 
         [HttpPut]
