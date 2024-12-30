@@ -607,6 +607,22 @@ namespace Controllers
             }
         }
 
+        [HttpPut("{idTrecho}")]
+        [Authorize("Bearer")]
+        public async Task<ActionResult> ExcluirTrecho(int idTrecho)
+        {
+            try
+            {
+                await _cadastroService.ExcluirTrecho(idTrecho);
+
+                return Ok("Trecho excluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         #endregion
     }
 }

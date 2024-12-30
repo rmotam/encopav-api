@@ -85,5 +85,6 @@ namespace Services
 
         public async Task AlterarTrecho(TrechoDto trecho) => await _cadastroRepository.AlterarTrecho(trecho);
 
+        public async Task ExcluirTrecho(int IdTrecho) => await _cadastroRepository.ExcluirTrecho(IdTrecho);
     }
 }

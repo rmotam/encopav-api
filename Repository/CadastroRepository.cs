@@ -505,6 +505,17 @@ namespace Repository
             await conexao.ExecuteAsync(sql, parametros);
         }
 
+        public async Task ExcluirTrecho(int idTrecho)
+        {
+            string sql = "DELETE encopav_trecho WHERE id_trecho = @IdTrecho;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@IdTrecho", idTrecho, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
         #endregion
     }
 }

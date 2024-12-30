@@ -77,5 +77,7 @@ namespace Services
         Task IncluirTrecho(TrechoDto trecho);
 
         Task AlterarTrecho(TrechoDto trecho);
+
+        Task ExcluirTrecho(int IdTrecho);
     }
 }

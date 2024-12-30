@@ -77,5 +77,7 @@ namespace Repository
         Task AlterarTrecho(TrechoDto trecho);
 
         Task IncluirTrecho(TrechoDto trecho);
+
+        Task ExcluirTrecho(int idTrecho);
     }
 }
