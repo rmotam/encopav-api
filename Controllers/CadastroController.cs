@@ -607,7 +607,7 @@ namespace Controllers
             }
         }
 
-        [HttpPut("{idTrecho}")]
+        [HttpDelete("{idTrecho}")]
         [Authorize("Bearer")]
         public async Task<ActionResult> ExcluirTrecho(int idTrecho)
         {
