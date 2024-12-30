@@ -40,7 +40,7 @@ namespace Repository
 
         Task AlterarObra(ObraDto obra);
 
-        Task IncluirObra(ObraDto obra);
+        Task<int> IncluirObra(ObraDto obra);
 
         Task<IEnumerable<FaixaCbuqDto>> ListarFaixaCbuq();
 

@@ -255,9 +255,10 @@ namespace Repository
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task IncluirObra(ObraDto obra)
+        public async Task<int> IncluirObra(ObraDto obra)
         {
-            string sql = "INSERT INTO encopav_obra (numero, nome, endereco, data_inicio, data_termino, situacao) VALUES (@Numero, @Nome, @Endereco, @DataInicio, @DataTermino, @Situacao);";
+            string sql = @"INSERT INTO encopav_obra (numero, nome, endereco, data_inicio, data_termino, situacao) VALUES (@Numero, @Nome, @Endereco, @DataInicio, @DataTermino, @Situacao); 
+                        SELECT LAST_INSERT_ID();";
 
             DynamicParameters parametros = new();
             parametros.Add("@Numero", obra.Numero, DbType.String);
@@ -268,7 +269,7 @@ namespace Repository
             parametros.Add("@Situacao", obra.Situacao, DbType.Boolean);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
-            await conexao.ExecuteAsync(sql, parametros);
+            return await conexao.QueryFirstOrDefaultAsync<int>(sql, parametros);
         }
 
         #endregion
