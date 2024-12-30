@@ -574,7 +574,7 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<TrechoDto>>> ListarTrecho(int idObra)
         {
-            var retorno = await _cadastroService.ListarTipoServico(idObra);
+            var retorno = await _cadastroService.ListarTrecho(idObra);
 
             if (retorno == null)
             {
@@ -592,7 +592,7 @@ namespace Controllers
             {
                 await _cadastroService.IncluirTrecho(trecho);
 
-                return Ok("Tipo serviço incluído com sucesso.");
+                return Ok("Trecho incluído com sucesso.");
             }
             catch (Exception ex)
             {
@@ -608,7 +608,7 @@ namespace Controllers
             {
                 await _cadastroService.AlterarTrecho(trecho);
 
-                return Ok("Tipo serviço alterado com sucesso.");
+                return Ok("Trecho alterado com sucesso.");
             }
             catch (Exception ex)
             {
