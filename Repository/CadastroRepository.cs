@@ -187,9 +187,9 @@ namespace Repository
 
         public async Task<IEnumerable<VeiculoDto>> ListarVeiculo()
         {
-            string sql = @"SELECT a.id_veiculo as id, a.modelo, a.ano, a.placa, a.proprietario, a.id_fornecedor as IdFornecedor. b.nome as NomeFornecedor
+            string sql = @"SELECT a.id_veiculo as id, a.modelo, a.ano, a.placa, a.proprietario, a.id_fornecedor as IdFornecedor, b.nome as NomeFornecedor
                         FROM encopav_veiculo a
-                        INNER JON encopav_fornecedor b
+                        INNER JOIN encopav_fornecedor b
                         ON a.id_fornecedor = b.id_fornecedor;";
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);

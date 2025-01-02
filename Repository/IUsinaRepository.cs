@@ -12,6 +12,6 @@ namespace Repository
 
         Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento);
 
-        Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento);
+        Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataEntradaInicio, DateTime dataEntradaFim);
     }
 }

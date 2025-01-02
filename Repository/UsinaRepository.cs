@@ -18,7 +18,7 @@ namespace Repository
         public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina)
         {
             string sql = @"INSERT INTO encopav_entrada_usina (data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, tipo_transporte) 
-                            VALUES (CURDATE(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @TipoTransporte);";
+                            VALUES (NOW(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @TipoTransporte);";
 
             DynamicParameters parametros = new();
             parametros.Add("@NumeroNotaFiscal", entradaUsina.NumeroNotaFiscal, DbType.String);
@@ -36,7 +36,7 @@ namespace Repository
         public async Task RegistrarSaidaUsina(SaidaUsinaDto entradaUsina)
         {
             string sql = @"INSERT INTO encopav_saida_usina (data_saida, id_material, id_veiculo, numero_nota_fiscal, ticket_balanca, peso_entrada, peso_bruto, peso_liquido, id_obra, id_trecho, id_faixa_cbuq) 
-                            VALUES (CURDATE(), @IdMaterial, @IdVeiculo, @NumeroNotaFiscal, @TicketBalanca, @PesoEntrada, @PesoBruto, @PesoLiquido, @IdObra, @IdTrecho, @IdFaixaCbuq);";
+                            VALUES (NOW(), @IdMaterial, @IdVeiculo, @NumeroNotaFiscal, @TicketBalanca, @PesoEntrada, @PesoBruto, @PesoLiquido, @IdObra, @IdTrecho, @IdFaixaCbuq);";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdMaterial", entradaUsina.IdMaterial, DbType.Int32);
@@ -57,7 +57,7 @@ namespace Repository
         public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap)
         {
             string sql = @"INSERT INTO encopav_estoque_cap (id_unidade_industrial, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, quantidade, id_tipo_cap, valor_pago, consumo_tanque, saldo_estoque, producao_usina, teor_consumo, horimetro_inicial, horimetro_final, observacao)
-                            VALUES (@IdUnidadeInsdustrial, CURDATE(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @Quantidade, @IdTipoCap, @ValorPago, @ConsumoTanque, @SaldoEstoque, @ProducaoUsina, @TeorConsumo, @HorimetroInicial, @HorimetroFinal, @Observacao);";
+                            VALUES (@IdUnidadeInsdustrial, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @Quantidade, @IdTipoCap, @ValorPago, @ConsumoTanque, @SaldoEstoque, @ProducaoUsina, @TeorConsumo, @HorimetroInicial, @HorimetroFinal, @Observacao);";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdUnidadeInsdustrial", estoqueCap.IdUnidadeIndustrial, DbType.Int32);
@@ -107,7 +107,7 @@ namespace Repository
             return await conexao.QueryAsync<SaidaUsinaCompletaDto>(sql, parametros);
         }
 
-        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento)
+        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataEntradaInicio, DateTime dataEntradaFim)
         {
             string sql = @"SELECT a.id_entrada_usina as IdEntradaUsina, a.data_entrada as DataEntrada, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_fornecedor as IdFornecedor, 
                                 b.nome as NomeFornecedor, a.id_material as IdMaterial, c.nome as NomeMaterial, a.quantidade as Quantidade, a.valor_unitario as ValorUnitario, 
@@ -121,10 +121,11 @@ namespace Repository
                             ON a.id_veiculo = d.id_veiculo
                             LEFT JOIN encopav_fornecedor e
                             ON d.id_fornecedor = e.id_fornecedor
-                            WHERE a.data_entrada = @DataEntrada";
+                            WHERE a.data_entrada BETWEEN @DataEntradaInicio AND @DataEntradaFim";
 
             DynamicParameters parametros = new();
-            parametros.Add("@DataEntrada", dataMovimento, DbType.DateTime);
+            parametros.Add("@DataEntradaInicio", dataEntradaInicio, DbType.DateTime);
+            parametros.Add("@DataEntradaFim", dataEntradaFim, DbType.DateTime);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<EntradaUsinaCompletaDto>(sql, parametros);

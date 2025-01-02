@@ -18,7 +18,14 @@ namespace Services
 
         public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap) => await _usinaRepository.RegistrarEstoqueCap(estoqueCap);
 
-        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento) => await _usinaRepository.ListarEntradaUsina(dataMovimento);
+        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento)
+        {
+            DateTime apenasData = dataMovimento.Date;
+
+            DateTime dataEntradaFim = apenasData.AddDays(1).AddTicks(-1);
+
+            return await _usinaRepository.ListarEntradaUsina(apenasData, dataEntradaFim);
+        }
 
         public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento) => await _usinaRepository.ListarSaidaUsina(dataMovimento);
     }
