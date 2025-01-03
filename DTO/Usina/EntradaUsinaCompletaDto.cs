@@ -11,5 +11,7 @@
         public string? PlacaVeiculo { get; set; }
 
         public string? Transportadora { get; set; }
+
+        public DateTime DataEntrada { get; set; }
     }
 }

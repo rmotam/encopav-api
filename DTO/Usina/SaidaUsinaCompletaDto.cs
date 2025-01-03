@@ -13,5 +13,7 @@
         public string? NomeTrecho { get; set; }
 
         public string? NomeFaixaCbuq { get; set; }
+
+        public DateTime DataSaida {  get; set; }
     }
 }
