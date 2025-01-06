@@ -98,7 +98,7 @@ namespace Repository
                             ON a.id_trecho = g.id_trecho
                             LEFT JOIN encopav_faixa_cbuq h
                             ON a.id_faixa_cbuq = h.id_faixa_cbuq
-                            WHERE a.data_saida = BETWEEN @DataSaidaInicio AND @DataSaidaFim";
+                            WHERE a.data_saida BETWEEN @DataSaidaInicio AND @DataSaidaFim";
 
             DynamicParameters parametros = new();
             parametros.Add("@DataSaidaInicio", DataSaidaInicio, DbType.DateTime);
