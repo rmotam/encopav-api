@@ -79,7 +79,7 @@ namespace Repository
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento)
+        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime DataSaidaInicio, DateTime DataSaidaFim)
         {
             string sql = @"SELECT a.id_saida_usina as IdSaidaUsina, a.data_saida as DataSaida, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_material as IdMaterial, 
                                 c.nome as NomeMaterial, a.id_veiculo as IdVeiculo, d.placa as PlacaVeiculo, e.nome as Transportadora, a.ticket_balanca as TicketBalanca, 
@@ -98,10 +98,11 @@ namespace Repository
                             ON a.id_trecho = g.id_trecho
                             LEFT JOIN encopav_faixa_cbuq h
                             ON a.id_faixa_cbuq = h.id_faixa_cbuq
-                            WHERE a.data_saida = @DataSaida";
+                            WHERE a.data_saida = BETWEEN @DataSaidaInicio AND @DataSaidaFim";
 
             DynamicParameters parametros = new();
-            parametros.Add("@Data", dataMovimento, DbType.DateTime);
+            parametros.Add("@DataSaidaInicio", DataSaidaInicio, DbType.DateTime);
+            parametros.Add("@DataSaidaFim", DataSaidaFim, DbType.DateTime);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<SaidaUsinaCompletaDto>(sql, parametros);

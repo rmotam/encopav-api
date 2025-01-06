@@ -27,6 +27,13 @@ namespace Services
             return await _usinaRepository.ListarEntradaUsina(apenasData, dataEntradaFim);
         }
 
-        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento) => await _usinaRepository.ListarSaidaUsina(dataMovimento);
+        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento)
+        {
+            DateTime apenasData = dataMovimento.Date;
+
+            DateTime dataEntradaFim = apenasData.AddDays(1).AddTicks(-1);
+
+            return await _usinaRepository.ListarSaidaUsina(apenasData, dataEntradaFim);
+        }
     }
 }

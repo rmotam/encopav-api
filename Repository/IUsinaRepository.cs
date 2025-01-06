@@ -10,7 +10,7 @@ namespace Repository
 
         Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap);
 
-        Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento);
+        Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime DataSaidaInicio, DateTime DataSaidaFim);
 
         Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataEntradaInicio, DateTime dataEntradaFim);
     }
