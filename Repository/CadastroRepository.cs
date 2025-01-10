@@ -517,5 +517,41 @@ namespace Repository
         }
 
         #endregion
+
+        #region Usina
+
+        public async Task<IEnumerable<UsinaDto>> ListarUsina()
+        {
+            string sql = "SELECT id_usina as id, nome FROM encopav_usina;";
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<UsinaDto>(sql);
+        }
+
+        public async Task AlterarUsina(UsinaDto usina)
+        {
+            string sql = "UPDATE encopav_usina SET nome = @Nome WHERE id_usina = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", usina.Nome, DbType.String);
+            parametros.Add("@Id", usina.Id, DbType.Int32);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task IncluirUsina(UsinaDto usina, string usuario)
+        {
+            string sql = "INSERT INTO encopav_usina (nome, user_name, dthr) VALUES (@Nome, @Usuario, NOW());";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Nome", usina.Nome, DbType.String);
+            parametros.Add("@Usuario", usuario, DbType.String);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        #endregion
     }
 }

@@ -5,79 +5,45 @@ namespace Repository
     public interface ICadastroRepository
     {
         Task<string> Teste();
-
         Task IncluirUnidadeMedida(UnidadeMedidaDto unidadeMedida);
-
         Task AlterarUnidadeMedida(UnidadeMedidaDto unidadeMedida);
-
         Task<IEnumerable<UnidadeMedidaDto>> ListarUnidadesMedida();
-
         Task<IEnumerable<FornecedorDto>> ListarFornecedor();
-
         Task AlterarFornecedor(FornecedorDto fornecedor);
-
         Task IncluirFornecedor(FornecedorDto fornecedor);
-
         Task<IEnumerable<TransportadoraDto>> ListarTransportadora();
-
         Task AlterarTransportadora(TransportadoraDto transportadora);
-
         Task IncluirTransportadora(TransportadoraDto transportadora);
-
         Task<IEnumerable<OrigemMaterialDto>> ListarOrigemMaterial();
-
         Task AlterarOrigemMaterial(OrigemMaterialDto origemMaterial);
-
         Task IncluirOrigemMaterial(OrigemMaterialDto origemMaterial);
-
         Task<IEnumerable<VeiculoDto>> ListarVeiculo();
-
         Task AlterarVeiculo(VeiculoDto veiculo);
-
         Task IncluirVeiculo(VeiculoDto veiculo);
-
         Task<IEnumerable<ObraDto>> ListarObras();
-
         Task AlterarObra(ObraDto obra);
-
         Task<int> IncluirObra(ObraDto obra);
-
         Task<IEnumerable<FaixaCbuqDto>> ListarFaixaCbuq();
-
         Task AlterarFaixaCbuq(FaixaCbuqDto faixaCbuq);
-
         Task IncluirFaixaCbuq(FaixaCbuqDto faixaCbuq);
-
         Task<IEnumerable<TipoCapDto>> ListarTipoCap();
-
         Task AlterarTipoCap(TipoCapDto tipoCap);
-
         Task IncluirTipoCap(TipoCapDto tipoCap);
-
         Task<IEnumerable<MaterialDto>> ListarMaterial();
-
         Task AlterarMaterial(MaterialDto material);
-
         Task IncluirMaterial(MaterialDto material);
-
         Task<IEnumerable<GrupoDto>> ListarGrupo();
-
         Task<IEnumerable<TipoServicoDto>> ListarTipoServico();
-
         Task<IEnumerable<TipoServicoDto>> ListarTipoServico(int IdGrupo);
-
         Task AlterarTipoServico(TipoServicoDto tipoServico);
-
         Task IncluirTipoServico(TipoServicoDto tipoServico);
-
         Task AtivarDesativarTipoServico(int idTipoServico, bool ativo);
-
         Task<IEnumerable<TrechoDto>> ListarTrecho(int idObra);
-
         Task AlterarTrecho(TrechoDto trecho);
-
         Task IncluirTrecho(TrechoDto trecho);
-
         Task ExcluirTrecho(int idTrecho);
+        Task<IEnumerable<UsinaDto>> ListarUsina();
+        Task AlterarUsina(UsinaDto usina);
+        Task IncluirUsina(UsinaDto usina, string usuario);
     }
 }

@@ -79,5 +79,11 @@ namespace Services
         Task AlterarTrecho(TrechoDto trecho);
 
         Task ExcluirTrecho(int IdTrecho);
+
+        Task<IEnumerable<UsinaDto>> ListarUsina();
+
+        Task IncluirUsina(UsinaDto usina, string usuario);
+
+        Task AlterarUsina(UsinaDto usina);
     }
 }

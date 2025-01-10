@@ -624,5 +624,55 @@ namespace Controllers
 
         }
         #endregion
+
+        #region Usina
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<UsinaDto>>> ListarUsina()
+        {
+            var retorno = await _cadastroService.ListarUsina();
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
+        [HttpPost]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> IncluirUsina([FromBody] UsinaDto usina)
+        {
+            try
+            {
+                var usuario = User.Identity?.Name;
+
+                await _cadastroService.IncluirUsina(usina, usuario);
+
+                return Ok("Usina incluída com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarUsina([FromBody] UsinaDto usina)
+        {
+            try
+            {
+                await _cadastroService.AlterarUsina(usina);
+
+                return Ok("Usina alterada com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
