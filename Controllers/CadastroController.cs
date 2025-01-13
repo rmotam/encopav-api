@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DTO;
+using Newtonsoft;
+using Newtonsoft.Json;
 
 namespace Controllers
 {
@@ -10,6 +12,8 @@ namespace Controllers
     public class CadastroController : Controller
     {
         private readonly ICadastroService _cadastroService;
+        private const string PERFIL_CADASTRO = "cadastro";
+
         public CadastroController(ICadastroService cadastroService)
         {
             _cadastroService = cadastroService;
@@ -42,6 +46,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<UnidadeMedidaDto>>> ListarUnidadesMedida()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarUnidadesMedida();
 
             if (retorno == null)
@@ -58,6 +71,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirUnidadeMedida(unidadeMedida);
 
                 return Ok("Unidade medida incluída com sucesso.");
@@ -74,6 +96,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarUnidadeMedida(unidadeMedida);
 
                 return Ok("Unidade medida alterada com sucesso.");
@@ -92,6 +123,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<FornecedorDto>>> ListarFornecedor()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarFornecedor();
 
             if (retorno == null)
@@ -108,6 +148,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirFornecedor(fornecedor);
 
                 return Ok("Fornecedor incluído com sucesso.");
@@ -124,6 +173,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarFornecedor(fornecedor);
 
                 return Ok("Fornecedor alterado com sucesso.");
@@ -142,6 +200,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<TransportadoraDto>>> ListarTransportadora()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarTransportadora();
 
             if (retorno == null)
@@ -158,6 +225,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirTransportadora(transportadora);
 
                 return Ok("Transportadora incluída com sucesso.");
@@ -174,6 +250,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarTransportadora(transportadora);
 
                 return Ok("Transportadora alterada com sucesso.");
@@ -242,6 +327,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<VeiculoDto>>> ListarVeiculo()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarVeiculo();
 
             if (retorno == null)
@@ -258,6 +352,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirVeiculo(veiculo);
 
                 return Ok("Veículo incluído com sucesso.");
@@ -274,6 +377,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarVeiculo(veiculo);
 
                 return Ok("Veículo alterado com sucesso.");
@@ -292,6 +404,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<ObraDto>>> ListarObra()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarObra();
 
             if (retorno == null)
@@ -304,9 +425,26 @@ namespace Controllers
 
         [HttpPost]
         [Authorize("Bearer")]
-        public async Task<int> IncluirObra([FromBody] ObraDto obra)
+        public async Task<ActionResult<int>> IncluirObra([FromBody] ObraDto obra)
         {
-            return await _cadastroService.IncluirObra(obra);
+            
+            try
+            {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
+                return await _cadastroService.IncluirObra(obra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
@@ -315,6 +453,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarObra(obra);
 
                 return Ok("Obra alterada com sucesso.");
@@ -333,6 +480,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<FaixaCbuqDto>>> ListarFaixaCbuq()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarFaixaCbuq();
 
             if (retorno == null)
@@ -349,6 +505,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirFaixaCbuq(faixaCbuq);
 
                 return Ok("Faixa CBUQ incluída com sucesso.");
@@ -365,6 +530,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarFaixaCbuq(faixaCbuq);
 
                 return Ok("Faixa CBUQ alterada com sucesso.");
@@ -383,6 +557,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<TipoCapDto>>> ListarTipoCap()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarTipoCap();
 
             if (retorno == null)
@@ -399,6 +582,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirTipoCap(tipoCap);
 
                 return Ok("Tipo CAP incluída com sucesso.");
@@ -415,6 +607,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarTipoCap(tipoCap);
 
                 return Ok("Tipo CAP alterada com sucesso.");
@@ -433,6 +634,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<MaterialDto>>> ListarMaterial()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarMaterial();
 
             if (retorno == null)
@@ -449,6 +659,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirMaterial(material);
 
                 return Ok("Material incluído com sucesso.");
@@ -465,6 +684,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarMaterial(material);
 
                 return Ok("Material alterado com sucesso.");
@@ -483,6 +711,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<TipoServicoDto>>> ListarTipoServico()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarTipoServico();
 
             if (retorno == null)
@@ -497,6 +734,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<TipoServicoDto>>> ListarTipoServico(int IdGrupo)
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarTipoServico(IdGrupo);
 
             if (retorno == null)
@@ -513,6 +759,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.IncluirTipoServico(tipoServico);
 
                 return Ok("Tipo serviço incluído com sucesso.");
@@ -529,6 +784,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarTipoServico(tipoServico);
 
                 return Ok("Tipo serviço alterado com sucesso.");
@@ -545,6 +809,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AtivarDesativarTipoServico(idTipoServico, ativo);
 
                 string situacao = ativo ? "ativado" : "desativado";
@@ -631,6 +904,15 @@ namespace Controllers
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<UsinaDto>>> ListarUsina()
         {
+            var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+            var perfil = ObterPerfil(permissao.Value);
+
+            if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO)))
+            {
+                return Forbid();
+            }
+
             var retorno = await _cadastroService.ListarUsina();
 
             if (retorno == null)
@@ -647,6 +929,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Incluir))
+                {
+                    return Forbid();
+                }
+
                 var usuario = User.Identity?.Name;
 
                 await _cadastroService.IncluirUsina(usina, usuario);
@@ -665,6 +956,15 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_CADASTRO) && x.Alterar))
+                {
+                    return Forbid();
+                }
+
                 await _cadastroService.AlterarUsina(usina);
 
                 return Ok("Usina alterada com sucesso.");
@@ -676,5 +976,8 @@ namespace Controllers
         }
 
         #endregion
+
+        private IEnumerable<PerfilUsuarioDto> ObterPerfil(string perfilJson) => JsonConvert.DeserializeObject<IEnumerable<PerfilUsuarioDto>>(perfilJson);
+
     }
 }

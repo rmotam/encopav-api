@@ -15,10 +15,10 @@ namespace Repository
             _configuracao = configuracao;
         }
 
-        public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina)
+        public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario)
         {
-            string sql = @"INSERT INTO encopav_entrada_usina (data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, tipo_transporte) 
-                            VALUES (NOW(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @TipoTransporte);";
+            string sql = @"INSERT INTO encopav_entrada_usina (data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, tipo_transporte, user_name, dthr) 
+                            VALUES (NOW(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @TipoTransporte, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
             parametros.Add("@NumeroNotaFiscal", entradaUsina.NumeroNotaFiscal, DbType.String);
@@ -28,15 +28,16 @@ namespace Repository
             parametros.Add("@ValorUnitario", entradaUsina.ValorUnitario, DbType.Decimal);
             parametros.Add("@IdVeiculo", entradaUsina.IdVeiculo, DbType.Int32);
             parametros.Add("@TipoTransporte", entradaUsina.TipoTransporte, DbType.String);
+            parametros.Add("@Usuario", usuario, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task RegistrarSaidaUsina(SaidaUsinaDto entradaUsina)
+        public async Task RegistrarSaidaUsina(SaidaUsinaDto entradaUsina, string usuario)
         {
-            string sql = @"INSERT INTO encopav_saida_usina (data_saida, id_material, id_veiculo, numero_nota_fiscal, ticket_balanca, peso_entrada, peso_bruto, peso_liquido, id_obra, id_trecho, id_faixa_cbuq) 
-                            VALUES (NOW(), @IdMaterial, @IdVeiculo, @NumeroNotaFiscal, @TicketBalanca, @PesoEntrada, @PesoBruto, @PesoLiquido, @IdObra, @IdTrecho, @IdFaixaCbuq);";
+            string sql = @"INSERT INTO encopav_saida_usina (data_saida, id_material, id_veiculo, numero_nota_fiscal, ticket_balanca, peso_entrada, peso_bruto, peso_liquido, id_obra, id_trecho, id_faixa_cbuq, user_name, dthr) 
+                            VALUES (NOW(), @IdMaterial, @IdVeiculo, @NumeroNotaFiscal, @TicketBalanca, @PesoEntrada, @PesoBruto, @PesoLiquido, @IdObra, @IdTrecho, @IdFaixaCbuq, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdMaterial", entradaUsina.IdMaterial, DbType.Int32);
@@ -49,15 +50,16 @@ namespace Repository
             parametros.Add("@IdObra", entradaUsina.IdVeiculo, DbType.Int32);
             parametros.Add("@IdTrecho", entradaUsina.IdVeiculo, DbType.Int32);
             parametros.Add("@IdFaixaCbuq", entradaUsina.IdVeiculo, DbType.Int32);
+            parametros.Add("@Usuario", usuario, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap)
+        public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario)
         {
-            string sql = @"INSERT INTO encopav_estoque_cap (id_unidade_industrial, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, quantidade, id_tipo_cap, valor_pago, consumo_tanque, saldo_estoque, producao_usina, teor_consumo, horimetro_inicial, horimetro_final, observacao)
-                            VALUES (@IdUnidadeInsdustrial, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @Quantidade, @IdTipoCap, @ValorPago, @ConsumoTanque, @SaldoEstoque, @ProducaoUsina, @TeorConsumo, @HorimetroInicial, @HorimetroFinal, @Observacao);";
+            string sql = @"INSERT INTO encopav_estoque_cap (id_unidade_industrial, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, quantidade, id_tipo_cap, valor_pago, consumo_tanque, saldo_estoque, producao_usina, teor_consumo, horimetro_inicial, horimetro_final, observacao, user_name, dthr)
+                            VALUES (@IdUnidadeInsdustrial, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @Quantidade, @IdTipoCap, @ValorPago, @ConsumoTanque, @SaldoEstoque, @ProducaoUsina, @TeorConsumo, @HorimetroInicial, @HorimetroFinal, @Observacao, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdUnidadeInsdustrial", estoqueCap.IdUnidadeIndustrial, DbType.Int32);
@@ -74,6 +76,7 @@ namespace Repository
             parametros.Add("@HorimetroInicial", estoqueCap.HorimetroInicial, DbType.String);
             parametros.Add("@HorimetroFinal", estoqueCap.HorimetroFinal, DbType.String);
             parametros.Add("@Observacao", estoqueCap.Observacao, DbType.String);
+            parametros.Add("@Usuario", usuario, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);

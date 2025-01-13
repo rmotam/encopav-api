@@ -4,11 +4,11 @@ namespace Repository
 {
     public interface IUsinaRepository
     {
-        Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina);
+        Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario);
 
-        Task RegistrarSaidaUsina(SaidaUsinaDto entradaUsina);
+        Task RegistrarSaidaUsina(SaidaUsinaDto entradaUsina, string usuario);
 
-        Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap);
+        Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario);
 
         Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime DataSaidaInicio, DateTime DataSaidaFim);
 

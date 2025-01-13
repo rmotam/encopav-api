@@ -1,5 +1,4 @@
 ﻿using DTO.Usina;
-using Org.BouncyCastle.Asn1.Esf;
 using Repository;
 
 namespace Services
@@ -12,11 +11,11 @@ namespace Services
             _usinaRepository = usinaRepository;
         }
 
-        public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina) => await _usinaRepository.RegistrarEntradaUsina(entradaUsina);
+        public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario) => await _usinaRepository.RegistrarEntradaUsina(entradaUsina, usuario);
 
-        public async Task RegistrarSaidaUsina(SaidaUsinaDto saidaUsina) => await _usinaRepository.RegistrarSaidaUsina(saidaUsina);
+        public async Task RegistrarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario) => await _usinaRepository.RegistrarSaidaUsina(saidaUsina, usuario);
 
-        public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap) => await _usinaRepository.RegistrarEstoqueCap(estoqueCap);
+        public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario) => await _usinaRepository.RegistrarEstoqueCap(estoqueCap, usuario);
 
         public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento)
         {

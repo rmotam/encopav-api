@@ -22,7 +22,9 @@ namespace Controllers
         {
             try
             {
-                await _usinaService.RegistrarEntradaUsina(entradaUsina);
+                var usuario = User.Identity?.Name;
+
+                await _usinaService.RegistrarEntradaUsina(entradaUsina, usuario);
 
                 return Ok("Entrada registrada com sucesso.");
             }
@@ -38,7 +40,9 @@ namespace Controllers
         {
             try
             {
-                await _usinaService.RegistrarSaidaUsina(saidaUsina);
+                var usuario = User.Identity?.Name;
+
+                await _usinaService.RegistrarSaidaUsina(saidaUsina, usuario);
 
                 return Ok("Saída registrada com sucesso.");
             }
@@ -54,7 +58,9 @@ namespace Controllers
         {
             try
             {
-                await _usinaService.RegistrarEstoqueCap(estoqueCap);
+                var usuario = User.Identity?.Name;
+
+                await _usinaService.RegistrarEstoqueCap(estoqueCap, usuario);
 
                 return Ok("Estoque CAP registrado com sucesso.");
             }
