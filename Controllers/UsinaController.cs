@@ -34,6 +34,20 @@ namespace Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<EntradaUsinaCompletaDto>>> ListarEntradaUsina(DateTime dataMovimento)
+        {
+            var retorno = await _usinaService.ListarEntradaUsina(dataMovimento);
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
+        }
+
         [HttpPost]
         [Authorize("Bearer")]
         public async Task<IActionResult> RegistrarSaidaUsina([FromBody] SaidaUsinaDto saidaUsina)
@@ -68,20 +82,6 @@ namespace Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        [HttpGet]
-        [Authorize("Bearer")]
-        public async Task<ActionResult<IEnumerable<EntradaUsinaCompletaDto>>> ListarEntradaUsina(DateTime dataMovimento)
-        {
-            var retorno = await _usinaService.ListarEntradaUsina(dataMovimento);
-
-            if (retorno == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(retorno);
         }
 
         [HttpGet]
