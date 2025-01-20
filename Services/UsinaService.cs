@@ -12,10 +12,8 @@ namespace Services
         }
 
         public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario) => await _usinaRepository.RegistrarEntradaUsina(entradaUsina, usuario);
-
-        public async Task RegistrarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario) => await _usinaRepository.RegistrarSaidaUsina(saidaUsina, usuario);
-
-        public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario) => await _usinaRepository.RegistrarEstoqueCap(estoqueCap, usuario);
+        
+        public async Task AlterarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario) => await _usinaRepository.AlterarEntradaUsina(entradaUsina, usuario);
 
         public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento)
         {
@@ -25,6 +23,10 @@ namespace Services
 
             return await _usinaRepository.ListarEntradaUsina(apenasData, dataEntradaFim);
         }
+
+        public async Task RegistrarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario) => await _usinaRepository.RegistrarSaidaUsina(saidaUsina, usuario);
+
+        public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario) => await _usinaRepository.RegistrarEstoqueCap(estoqueCap, usuario);
 
         public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento)
         {

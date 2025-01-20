@@ -17,20 +17,80 @@ namespace Repository
 
         public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario)
         {
-            string sql = @"INSERT INTO encopav_entrada_usina (data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, tipo_transporte, user_name, dthr) 
-                            VALUES (NOW(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @TipoTransporte, @Usuario, NOW());";
+            string sql = @"INSERT INTO encopav_entrada_usina (data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr) 
+                            VALUES (NOW(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @PostoRetirado, TicketBalanca, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
             parametros.Add("@NumeroNotaFiscal", entradaUsina.NumeroNotaFiscal, DbType.String);
             parametros.Add("@IdFornecedor", entradaUsina.IdFornecedor, DbType.Int32);
             parametros.Add("@IdMaterial", entradaUsina.IdMaterial, DbType.Int32);
-            parametros.Add("@Quantidade", entradaUsina.Quantidade, DbType.String);
+            parametros.Add("@Quantidade", entradaUsina.Quantidade, DbType.Decimal);
             parametros.Add("@ValorUnitario", entradaUsina.ValorUnitario, DbType.Decimal);
             parametros.Add("@IdVeiculo", entradaUsina.IdVeiculo, DbType.Int32);
-            parametros.Add("@TipoTransporte", entradaUsina.TipoTransporte, DbType.String);
+            parametros.Add("@PostoRetirado", entradaUsina.PostoRetirado, DbType.String);
+            parametros.Add("@TicketBalanca", entradaUsina.TicketBalanca, DbType.String);
             parametros.Add("@Usuario", usuario, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataEntradaInicio, DateTime dataEntradaFim)
+        {
+            string sql = @"SELECT a.id_entrada_usina as IdEntradaUsina, a.data_entrada as DataEntrada, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_fornecedor as IdFornecedor, 
+                                b.nome as NomeFornecedor, a.id_material as IdMaterial, c.nome as NomeMaterial, a.quantidade as Quantidade, a.valor_unitario as ValorUnitario, 
+                                a.id_veiculo as IdVeiculo, d.placa as PlacaVeiculo, e.nome as Transportadora, a.posto_retirado as PostoRetirado, f.descricao as UnidadeMedida,
+                                a.ticket_balanca as TicketBalanca
+                            FROM encopav_entrada_usina a
+                            LEFT JOIN encopav_fornecedor b
+                            ON a.id_fornecedor = b.id_fornecedor
+                            LEFT JOIN encopav_material c
+                            ON a.id_material = c.id_material
+                            LEFT JOIN encopav_veiculo d
+                            ON a.id_veiculo = d.id_veiculo
+                            LEFT JOIN encopav_fornecedor e
+                            ON d.id_fornecedor = e.id_fornecedor
+                            LEFT JOIN encopav_unidade_medida f
+                            ON c.id_unidade_medida = f.id_unidade_medida
+                            WHERE a.data_entrada BETWEEN @DataEntradaInicio AND @DataEntradaFim";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@DataEntradaInicio", dataEntradaInicio, DbType.DateTime);
+            parametros.Add("@DataEntradaFim", dataEntradaFim, DbType.DateTime);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<EntradaUsinaCompletaDto>(sql, parametros);
+        }
+
+        public async Task AlterarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario)
+        {
+            string sqlHist = @"INSERT INTO encopav_entrada_usina_hist (data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr) 
+                            SELECT data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr 
+                            FROM encopav_entrada_usina
+                            WHERE id_entrada_usina = @Id;";
+
+            DynamicParameters parametrosHist = new();
+            parametrosHist.Add("@Id", entradaUsina.IdEntradaUsina, DbType.Int32);
+
+            string sql = @"UPDATE encopav_entrada_usina SET numero_nota_fiscal = @NumeroNotaFiscal, id_fornecedor = @IdFornecedor, id_material = @IdMaterial, 
+                                quantidade = @Quantidade, valor_unitario = @ValorUnitario, id_veiculo = @IdVeiculo, posto_retirado = @PostoRetirado, 
+                                ticket_balanca = @TicketBalanca, usuario = @Usuario, dthr = NOW()
+                            WHERE id_entrada_usina = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Id", entradaUsina.IdEntradaUsina, DbType.Int32);
+            parametros.Add("@NumeroNotaFiscal", entradaUsina.NumeroNotaFiscal, DbType.String);
+            parametros.Add("@IdFornecedor", entradaUsina.IdFornecedor, DbType.Int32);
+            parametros.Add("@IdMaterial", entradaUsina.IdMaterial, DbType.Int32);
+            parametros.Add("@Quantidade", entradaUsina.Quantidade, DbType.Decimal);
+            parametros.Add("@ValorUnitario", entradaUsina.ValorUnitario, DbType.Decimal);
+            parametros.Add("@IdVeiculo", entradaUsina.IdVeiculo, DbType.Int32);
+            parametros.Add("@PostoRetirado", entradaUsina.PostoRetirado, DbType.String);
+            parametros.Add("@TicketBalanca", entradaUsina.TicketBalanca, DbType.String);
+            parametros.Add("@Usuario", usuario, DbType.String);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sqlHist, parametrosHist);
             await conexao.ExecuteAsync(sql, parametros);
         }
 
@@ -109,30 +169,6 @@ namespace Repository
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<SaidaUsinaCompletaDto>(sql, parametros);
-        }
-
-        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataEntradaInicio, DateTime dataEntradaFim)
-        {
-            string sql = @"SELECT a.id_entrada_usina as IdEntradaUsina, a.data_entrada as DataEntrada, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_fornecedor as IdFornecedor, 
-                                b.nome as NomeFornecedor, a.id_material as IdMaterial, c.nome as NomeMaterial, a.quantidade as Quantidade, a.valor_unitario as ValorUnitario, 
-                                a.id_veiculo as IdVeiculo, d.placa as PlacaVeiculo, e.nome as Transportadora, a.tipo_transporte as TipoTransporte
-                            FROM encopav_entrada_usina a
-                            LEFT JOIN encopav_fornecedor b
-                            ON a.id_fornecedor = b.id_fornecedor
-                            LEFT JOIN encopav_material c
-                            ON a.id_material = c.id_material
-                            LEFT JOIN encopav_veiculo d
-                            ON a.id_veiculo = d.id_veiculo
-                            LEFT JOIN encopav_fornecedor e
-                            ON d.id_fornecedor = e.id_fornecedor
-                            WHERE a.data_entrada BETWEEN @DataEntradaInicio AND @DataEntradaFim";
-
-            DynamicParameters parametros = new();
-            parametros.Add("@DataEntradaInicio", dataEntradaInicio, DbType.DateTime);
-            parametros.Add("@DataEntradaFim", dataEntradaFim, DbType.DateTime);
-
-            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
-            return await conexao.QueryAsync<EntradaUsinaCompletaDto>(sql, parametros);
         }
     }
 }
