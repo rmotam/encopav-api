@@ -65,8 +65,8 @@ namespace Repository
 
         public async Task AlterarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario)
         {
-            string sqlHist = @"INSERT INTO encopav_entrada_usina_hist (data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr) 
-                            SELECT data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr 
+            string sqlHist = @"INSERT INTO encopav_entrada_usina_hist (id_usina, data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr) 
+                            SELECT id_usina, data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr 
                             FROM encopav_entrada_usina
                             WHERE id_entrada_usina = @Id;";
 
