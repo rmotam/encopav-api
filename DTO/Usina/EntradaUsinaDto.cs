@@ -4,7 +4,7 @@
     {
         public int? IdEntradaUsina { get; set; }
 
-        public int IdUsina { get; set; }
+        public int? IdUsina { get; set; }
 
         public string? NumeroNotaFiscal {  get; set; }
 

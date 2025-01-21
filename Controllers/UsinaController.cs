@@ -34,6 +34,24 @@ namespace Controllers
             }
         }
 
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarEntradaUsina([FromBody] EntradaUsinaDto entradaUsina)
+        {
+            try
+            {
+                var usuario = User.Identity?.Name;
+
+                await _usinaService.AlterarEntradaUsina(entradaUsina, usuario);
+
+                return Ok("Entrada registrada com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Authorize("Bearer")]
         public async Task<ActionResult<IEnumerable<EntradaUsinaCompletaDto>>> ListarEntradaUsina(DateTime dataMovimento)

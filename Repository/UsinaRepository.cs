@@ -97,10 +97,11 @@ namespace Repository
 
         public async Task RegistrarSaidaUsina(SaidaUsinaDto entradaUsina, string usuario)
         {
-            string sql = @"INSERT INTO encopav_saida_usina (data_saida, id_material, id_veiculo, numero_nota_fiscal, ticket_balanca, peso_entrada, peso_bruto, peso_liquido, id_obra, id_trecho, id_faixa_cbuq, user_name, dthr) 
-                            VALUES (NOW(), @IdMaterial, @IdVeiculo, @NumeroNotaFiscal, @TicketBalanca, @PesoEntrada, @PesoBruto, @PesoLiquido, @IdObra, @IdTrecho, @IdFaixaCbuq, @Usuario, NOW());";
+            string sql = @"INSERT INTO encopav_saida_usina (id_usina, data_saida, id_material, id_veiculo, numero_nota_fiscal, ticket_balanca, peso_entrada, peso_bruto, peso_liquido, id_obra, id_trecho, id_faixa_cbuq, user_name, dthr) 
+                            VALUES (@IdUsina, NOW(), @IdMaterial, @IdVeiculo, @NumeroNotaFiscal, @TicketBalanca, @PesoEntrada, @PesoBruto, @PesoLiquido, @IdObra, @IdTrecho, @IdFaixaCbuq, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
+            parametros.Add("@IdUsina", entradaUsina.IdUsina, DbType.Int32);
             parametros.Add("@IdMaterial", entradaUsina.IdMaterial, DbType.Int32);
             parametros.Add("@IdVeiculo", entradaUsina.IdVeiculo, DbType.Int32);
             parametros.Add("@NumeroNotaFiscal", entradaUsina.NumeroNotaFiscal, DbType.String);
