@@ -18,7 +18,7 @@ namespace Repository
         public async Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario)
         {
             string sql = @"INSERT INTO encopav_entrada_usina (id_usina, data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr) 
-                            VALUES (@IdUsina, NOW(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @PostoRetirado, TicketBalanca, @Usuario, NOW());";
+                            VALUES (@IdUsina, NOW(), @NumeroNotaFiscal, @IdFornecedor, @IdMaterial, @Quantidade, @ValorUnitario, @IdVeiculo, @PostoRetirado, @TicketBalanca, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdUsina", entradaUsina.IdUsina, DbType.Int32);
