@@ -41,7 +41,7 @@ namespace Repository
             string sql = @"SELECT a.id_entrada_usina as IdEntradaUsina, a.data_entrada as DataEntrada, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_fornecedor as IdFornecedor, 
                                 b.nome as NomeFornecedor, a.id_material as IdMaterial, c.nome as NomeMaterial, a.quantidade as Quantidade, a.valor_unitario as ValorUnitario, 
                                 a.id_veiculo as IdVeiculo, d.placa as PlacaVeiculo, e.nome as Transportadora, a.posto_retirado as PostoRetirado, f.descricao as UnidadeMedida,
-                                a.ticket_balanca as TicketBalanca
+                                a.ticket_balanca as TicketBalanca, a.user_name as UserName
                             FROM encopav_entrada_usina a
                             LEFT JOIN encopav_fornecedor b
                             ON a.id_fornecedor = b.id_fornecedor

@@ -22,6 +22,8 @@
 
         public string? TicketBalanca { get; set; }
 
+        public string? UserName { get; set; }
+
         public DateTime? DataEntrada { get; set; }
 
     }

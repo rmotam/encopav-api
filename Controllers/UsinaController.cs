@@ -2,6 +2,7 @@
 using DTO.Usina;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Services;
 
 namespace Controllers
@@ -11,6 +12,8 @@ namespace Controllers
     public class UsinaController : Controller
     {
         private readonly IUsinaService _usinaService;
+        private const string PERFIL_SALA_TECNICA = "sala_tecnica";
+        private const string PERFIL_OPERACAO_USINA = "operacao_usina";
         public UsinaController(IUsinaService usinaService)
         {
             _usinaService = usinaService;
@@ -22,6 +25,16 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_SALA_TECNICA)) &&
+                    !perfil.Any(x => x.Nome.Contains(PERFIL_OPERACAO_USINA)))
+                {
+                    return Forbid();
+                }
+
                 var usuario = User.Identity?.Name;
 
                 await _usinaService.RegistrarEntradaUsina(entradaUsina, usuario);
@@ -40,11 +53,23 @@ namespace Controllers
         {
             try
             {
+                var cadastradoHoje = entradaUsina.DataEntrada == DateTime.Today;
+
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+                
                 var usuario = User.Identity?.Name;
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_SALA_TECNICA)) && 
+                    !(perfil.Any(x => x.Nome.Contains(PERFIL_OPERACAO_USINA)) && cadastradoHoje && usuario == entradaUsina.UserName))
+                {
+                    return Forbid();
+                }
 
                 await _usinaService.AlterarEntradaUsina(entradaUsina, usuario);
 
-                return Ok("Entrada registrada com sucesso.");
+                return Ok("Entrada alterada com sucesso.");
             }
             catch (Exception ex)
             {
@@ -115,5 +140,7 @@ namespace Controllers
 
             return Ok(retorno);
         }
+
+        private IEnumerable<PerfilUsuarioDto> ObterPerfil(string perfilJson) => JsonConvert.DeserializeObject<IEnumerable<PerfilUsuarioDto>>(perfilJson);
     }
 }
