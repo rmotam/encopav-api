@@ -6,7 +6,7 @@ namespace Repository
     {
         Task RegistrarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario);
 
-        Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataEntradaInicio, DateTime dataEntradaFim);
+        Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(int idUsina, DateTime dataEntradaInicio, DateTime dataEntradaFim);
 
         Task AlterarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario);
 

@@ -8,7 +8,7 @@ namespace Services
 
         Task AlterarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario);
 
-        Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataMovimento);
+        Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(int idUsina, DateTime dataMovimento);
 
         Task RegistrarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario);
 

@@ -79,9 +79,9 @@ namespace Controllers
 
         [HttpGet]
         [Authorize("Bearer")]
-        public async Task<ActionResult<IEnumerable<EntradaUsinaCompletaDto>>> ListarEntradaUsina(DateTime dataMovimento)
+        public async Task<ActionResult<IEnumerable<EntradaUsinaCompletaDto>>> ListarEntradaUsina(int idUsina, DateTime dataMovimento)
         {
-            var retorno = await _usinaService.ListarEntradaUsina(dataMovimento);
+            var retorno = await _usinaService.ListarEntradaUsina(idUsina, dataMovimento);
 
             if (retorno == null)
             {

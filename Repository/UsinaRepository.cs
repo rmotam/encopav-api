@@ -36,7 +36,7 @@ namespace Repository
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(DateTime dataEntradaInicio, DateTime dataEntradaFim)
+        public async Task<IEnumerable<EntradaUsinaCompletaDto>> ListarEntradaUsina(int idUsina, DateTime dataEntradaInicio, DateTime dataEntradaFim)
         {
             string sql = @"SELECT a.id_entrada_usina as IdEntradaUsina, a.data_entrada as DataEntrada, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_fornecedor as IdFornecedor, 
                                 b.nome as NomeFornecedor, a.id_material as IdMaterial, c.nome as NomeMaterial, a.quantidade as Quantidade, a.valor_unitario as ValorUnitario, 
@@ -53,9 +53,11 @@ namespace Repository
                             ON d.id_fornecedor = e.id_fornecedor
                             LEFT JOIN encopav_unidade_medida f
                             ON c.id_unidade_medida = f.id_unidade_medida
-                            WHERE a.data_entrada BETWEEN @DataEntradaInicio AND @DataEntradaFim";
+                            WHERE a.id_usina = @IdUsina
+                            AND a.data_entrada BETWEEN @DataEntradaInicio AND @DataEntradaFim";
 
             DynamicParameters parametros = new();
+            parametros.Add("@IdUsina", idUsina, DbType.Int32);
             parametros.Add("@DataEntradaInicio", dataEntradaInicio, DbType.DateTime);
             parametros.Add("@DataEntradaFim", dataEntradaFim, DbType.DateTime);
 
