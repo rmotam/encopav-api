@@ -20,7 +20,7 @@ namespace Repository
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync("Show Databases");
 
-            return "Rodando";
+            return $"Rodando {DateTime.Now}";
         }
 
         public async Task<IEnumerable<GrupoDto>> ListarGrupo()
