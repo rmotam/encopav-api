@@ -36,5 +36,7 @@ namespace Services
 
             return await _usinaRepository.ListarSaidaUsina(idUsina, apenasData, dataEntradaFim);
         }
+
+        public async Task AlterarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario) => await _usinaRepository.AlterarSaidaUsina(saidaUsina, usuario);
     }
 }

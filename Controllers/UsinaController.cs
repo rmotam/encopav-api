@@ -32,7 +32,7 @@ namespace Controllers
                 if (!perfil.Any(x => x.Nome.Contains(PERFIL_SALA_TECNICA)) &&
                     !perfil.Any(x => x.Nome.Contains(PERFIL_OPERACAO_USINA)))
                 {
-                    return Forbid();
+                    return Forbid("Operação não permitida.");
                 }
 
                 var usuario = User.Identity?.Name;
@@ -64,7 +64,7 @@ namespace Controllers
                 if (!perfil.Any(x => x.Nome.Contains(PERFIL_SALA_TECNICA)) && 
                     !(perfil.Any(x => x.Nome.Contains(PERFIL_OPERACAO_USINA)) && cadastradoHoje && usuario == entradaUsina.UserName))
                 {
-                    return Forbid();
+                    return Forbid("Operação não permitida.");
                 }
 
                 await _usinaService.AlterarEntradaUsina(entradaUsina, usuario);
@@ -97,6 +97,16 @@ namespace Controllers
         {
             try
             {
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_SALA_TECNICA)) &&
+                    !perfil.Any(x => x.Nome.Contains(PERFIL_OPERACAO_USINA)))
+                {
+                    return Forbid("Operação não permitida.");
+                }
+
                 var usuario = User.Identity?.Name;
 
                 await _usinaService.RegistrarSaidaUsina(saidaUsina, usuario);
@@ -139,6 +149,36 @@ namespace Controllers
             }
 
             return Ok(retorno);
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarSaidaUsina([FromBody] SaidaUsinaDto saidaUsina)
+        {
+            try
+            {
+                var cadastradoHoje = saidaUsina.DataSaida.Value.Date == DateTime.Today;
+
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                var usuario = User.Identity?.Name;
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_SALA_TECNICA)) &&
+                    !(perfil.Any(x => x.Nome.Contains(PERFIL_OPERACAO_USINA)) && cadastradoHoje && usuario == saidaUsina.UserName))
+                {
+                    return Forbid("Operação não permitida.");
+                }
+
+                await _usinaService.AlterarSaidaUsina(saidaUsina, usuario);
+
+                return Ok("Entrada alterada com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         private IEnumerable<PerfilUsuarioDto> ObterPerfil(string perfilJson) => JsonConvert.DeserializeObject<IEnumerable<PerfilUsuarioDto>>(perfilJson);

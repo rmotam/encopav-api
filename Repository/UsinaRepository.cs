@@ -113,7 +113,7 @@ namespace Repository
             parametros.Add("@PesoLiquido", entradaUsina.PesoLiquido, DbType.Decimal);
             parametros.Add("@IdObra", entradaUsina.IdVeiculo, DbType.Int32);
             parametros.Add("@IdTrecho", entradaUsina.IdVeiculo, DbType.Int32);
-            parametros.Add("@IdFaixaCbuq", entradaUsina.IdVeiculo, DbType.Int32);
+            parametros.Add("@IdFaixaCbuq", entradaUsina.IdFaixaCbuq, DbType.Int32);
             parametros.Add("@Usuario", usuario, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
@@ -175,6 +175,41 @@ namespace Repository
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<SaidaUsinaCompletaDto>(sql, parametros);
+        }
+
+        public async Task AlterarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario)
+        {
+            string sqlHist = @"INSERT INTO encopav_saida_usina_hist (id_saida_usina, id_usina, id_obra, id_trecho, id_faixa_cbuq, id_material, id_veiculo, data_saida, numero_nota_fiscal, ticket_balanca, peso_entrada, peso_bruto, peso_liquido, user_name, dthr)
+                            SELECT id_saida_usina, id_usina, id_obra, id_trecho, id_faixa_cbuq, id_material, id_veiculo, data_saida, numero_nota_fiscal, ticket_balanca, peso_entrada, peso_bruto, peso_liquido, user_name, dthr
+                            FROM encopav_saida_usina
+                            WHERE id_saida_usina = @Id;";
+
+            DynamicParameters parametrosHist = new();
+            parametrosHist.Add("@Id", saidaUsina.IdSaidaUsina, DbType.Int32);
+
+            string sql = @"UPDATE encopav_saida_usina SET numero_nota_fiscal = @NumeroNotaFiscal, id_obra = @IdObra, id_trecho = @IdTrecho, 
+                                id_faixa_cbuq = @IdFaixaCbuq, id_material = @IdMaterial, id_veiculo = @IdVeiculo,
+                                peso_entrada = @PesoEntrada, peso_bruto = @PesoBruto, peso_liquido = @PesoLiquido, 
+                                ticket_balanca = @TicketBalanca, user_name = @Usuario, dthr = NOW()
+                            WHERE id_saida_usina = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Id", saidaUsina.IdSaidaUsina, DbType.Int32);
+            parametros.Add("@NumeroNotaFiscal", saidaUsina.NumeroNotaFiscal, DbType.String);
+            parametros.Add("@IdObra", saidaUsina.IdObra, DbType.Int32);
+            parametros.Add("@IdTrecho", saidaUsina.IdTrecho, DbType.Int32);
+            parametros.Add("@IdFaixaCbuq", saidaUsina.IdFaixaCbuq, DbType.Int32);
+            parametros.Add("@IdMaterial", saidaUsina.IdMaterial, DbType.Int32);
+            parametros.Add("@IdVeiculo", saidaUsina.IdVeiculo, DbType.Int32);
+            parametros.Add("@PesoEntrada", saidaUsina.PesoEntrada, DbType.Decimal);
+            parametros.Add("@PesoBruto", saidaUsina.PesoBruto, DbType.Decimal);
+            parametros.Add("@PesoLiquido", saidaUsina.PesoLiquido, DbType.Decimal);
+            parametros.Add("@TicketBalanca", saidaUsina.TicketBalanca, DbType.String);
+            parametros.Add("@Usuario", usuario, DbType.String);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sqlHist, parametrosHist);
+            await conexao.ExecuteAsync(sql, parametros);
         }
     }
 }
