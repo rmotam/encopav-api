@@ -67,8 +67,8 @@ namespace Repository
 
         public async Task AlterarEntradaUsina(EntradaUsinaDto entradaUsina, string usuario)
         {
-            string sqlHist = @"INSERT INTO encopav_entrada_usina_hist (id_usina, data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr) 
-                            SELECT id_usina, data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr 
+            string sqlHist = @"INSERT INTO encopav_entrada_usina_hist (id_entrada_usina, id_usina, data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr) 
+                            SELECT id_entrada_usina, id_usina, data_entrada, numero_nota_fiscal, id_fornecedor, id_material, quantidade, valor_unitario, id_veiculo, posto_retirado, ticket_balanca, user_name, dthr 
                             FROM encopav_entrada_usina
                             WHERE id_entrada_usina = @Id;";
 
@@ -77,7 +77,7 @@ namespace Repository
 
             string sql = @"UPDATE encopav_entrada_usina SET numero_nota_fiscal = @NumeroNotaFiscal, id_fornecedor = @IdFornecedor, id_material = @IdMaterial, 
                                 quantidade = @Quantidade, valor_unitario = @ValorUnitario, id_veiculo = @IdVeiculo, posto_retirado = @PostoRetirado, 
-                                ticket_balanca = @TicketBalanca, usuario = @Usuario, dthr = NOW()
+                                ticket_balanca = @TicketBalanca, user_name = @Usuario, dthr = NOW()
                             WHERE id_entrada_usina = @Id;";
 
             DynamicParameters parametros = new();

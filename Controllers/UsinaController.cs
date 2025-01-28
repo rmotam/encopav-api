@@ -53,7 +53,7 @@ namespace Controllers
         {
             try
             {
-                var cadastradoHoje = entradaUsina.DataEntrada == DateTime.Today;
+                var cadastradoHoje = entradaUsina.DataEntrada.Value.Date == DateTime.Today;
 
                 var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
 
