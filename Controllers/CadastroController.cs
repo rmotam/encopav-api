@@ -20,7 +20,6 @@ namespace Controllers
         }
 
         [HttpGet]
-        [Authorize("Bearer")]
         public IActionResult Teste()
         {
             return Ok(Task.Run(() => _cadastroService.Teste()).Result);
