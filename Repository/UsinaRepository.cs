@@ -146,12 +146,12 @@ namespace Repository
             await conexao.ExecuteAsync(sql, parametros);
         }
 
-        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime DataSaidaInicio, DateTime DataSaidaFim)
+        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(int idUsina, DateTime DataSaidaInicio, DateTime DataSaidaFim)
         {
-            string sql = @"SELECT a.id_saida_usina as IdSaidaUsina, a.data_saida as DataSaida, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_material as IdMaterial, 
+            string sql = @"SELECT a.id_saida_usina as IdSaidaUsina, a.id_usina as IdUsina, a.data_saida as DataSaida, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_material as IdMaterial, 
                                 c.nome as NomeMaterial, a.id_veiculo as IdVeiculo, d.placa as PlacaVeiculo, e.nome as Transportadora, a.ticket_balanca as TicketBalanca, 
                                 a.peso_entrada as PesoEntrada, a.peso_bruto as PesoBruto, a.peso_liquido as PesoLiquido, a.id_obra as IdObra, f.nome as NomeObra, 
-                                a.id_trecho as IdTrecho, h.nome as NomeTrecho, a.id_faixa_cbuq as IdFaixaCbuq, h.nome as NomeFaixaCbuq
+                                a.id_trecho as IdTrecho, h.nome as NomeTrecho, a.id_faixa_cbuq as IdFaixaCbuq, h.nome as NomeFaixaCbuq, a.user_name as UserName
                             FROM encopav_saida_usina a
                             LEFT JOIN encopav_material c
                             ON a.id_material = c.id_material
@@ -165,9 +165,11 @@ namespace Repository
                             ON a.id_trecho = g.id_trecho
                             LEFT JOIN encopav_faixa_cbuq h
                             ON a.id_faixa_cbuq = h.id_faixa_cbuq
-                            WHERE a.data_saida BETWEEN @DataSaidaInicio AND @DataSaidaFim";
+                            WHERE id_usina = @IdUsina
+                            AND a.data_saida BETWEEN @DataSaidaInicio AND @DataSaidaFim";
 
             DynamicParameters parametros = new();
+            parametros.Add("@IdUsina", idUsina, DbType.Int32);
             parametros.Add("@DataSaidaInicio", DataSaidaInicio, DbType.DateTime);
             parametros.Add("@DataSaidaFim", DataSaidaFim, DbType.DateTime);
 

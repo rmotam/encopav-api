@@ -14,6 +14,6 @@ namespace Services
 
         Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario);        
 
-        Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento);
+        Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(int idUsina, DateTime dataMovimento);
     }
 }

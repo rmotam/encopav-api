@@ -28,13 +28,13 @@ namespace Services
 
         public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario) => await _usinaRepository.RegistrarEstoqueCap(estoqueCap, usuario);
 
-        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime dataMovimento)
+        public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(int idUsina, DateTime dataMovimento)
         {
             DateTime apenasData = dataMovimento.Date;
 
             DateTime dataEntradaFim = apenasData.AddDays(1).AddTicks(-1);
 
-            return await _usinaRepository.ListarSaidaUsina(apenasData, dataEntradaFim);
+            return await _usinaRepository.ListarSaidaUsina(idUsina, apenasData, dataEntradaFim);
         }
     }
 }

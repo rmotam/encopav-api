@@ -14,7 +14,7 @@ namespace Repository
 
         Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario);
 
-        Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(DateTime DataSaidaInicio, DateTime DataSaidaFim);
+        Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(int idUsina, DateTime DataSaidaInicio, DateTime DataSaidaFim);
         
     }
 }
