@@ -70,7 +70,7 @@ namespace Repository
 
         public async Task<IEnumerable<FornecedorDto>> ListarFornecedor()
         {
-            string sql = "SELECT id_fornecedor as id, nome, cpf_cnpj as CpfCnpj, contato, endereco FROM encopav_fornecedor;";
+            string sql = "SELECT id_fornecedor as id, nome, cpf_cnpj as CpfCnpj, contato, endereco, email FROM encopav_fornecedor;";
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             return await conexao.QueryAsync<FornecedorDto>(sql);
