@@ -78,13 +78,14 @@ namespace Repository
 
         public async Task AlterarFornecedor(FornecedorDto fornecedor)
         {
-            string sql = "UPDATE encopav_fornecedor SET nome = @Nome, cpf_cnpj = @CpfCnpj, contato = @Contato, endereco = @Endereco WHERE id_fornecedor = @Id;";
+            string sql = "UPDATE encopav_fornecedor SET nome = @Nome, cpf_cnpj = @CpfCnpj, contato = @Contato, endereco = @Endereco, email = @Email WHERE id_fornecedor = @Id;";
 
             DynamicParameters parametros = new();
             parametros.Add("@Nome", fornecedor.Nome, DbType.String);
             parametros.Add("@CpfCnpj", fornecedor.CpfCnpj, DbType.String);
             parametros.Add("@Contato", fornecedor.Contato, DbType.String);
             parametros.Add("@Endereco", fornecedor.Endereco, DbType.String);
+            parametros.Add("@Email", fornecedor.Email, DbType.String);
             parametros.Add("@Id", fornecedor.Id, DbType.Int32);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
@@ -93,13 +94,15 @@ namespace Repository
 
         public async Task IncluirFornecedor(FornecedorDto fornecedor)
         {
-            string sql = "INSERT INTO encopav_fornecedor (nome, cpf_cnpj, contato, endereco) VALUES (@Nome, @CpfCnpj, @Contato, @Endereco);";
+            string sql = @"INSERT INTO encopav_fornecedor (nome, cpf_cnpj, contato, endereco, email) 
+                            VALUES (@Nome, @CpfCnpj, @Contato, @Endereco, @Email);";
 
             DynamicParameters parametros = new();
             parametros.Add("@Nome", fornecedor.Nome, DbType.String);
             parametros.Add("@CpfCnpj", fornecedor.CpfCnpj, DbType.String);
             parametros.Add("@Contato", fornecedor.Contato, DbType.String);
             parametros.Add("@Endereco", fornecedor.Endereco, DbType.String);
+            parametros.Add("@Email", fornecedor.Email, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
