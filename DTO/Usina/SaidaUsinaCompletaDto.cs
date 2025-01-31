@@ -11,5 +11,7 @@
         public string? NomeTrecho { get; set; }
 
         public string? NomeFaixaCbuq { get; set; }
+
+        public string? Transportadora { get; set; }
     }
 }
