@@ -15,5 +15,7 @@
         public string Placa { get; set; }
 
         public string? Proprietario { get; set; }
+
+        public string? Codigo { get; set; }
     }
 }

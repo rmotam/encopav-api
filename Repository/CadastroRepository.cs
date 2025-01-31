@@ -190,7 +190,7 @@ namespace Repository
 
         public async Task<IEnumerable<VeiculoDto>> ListarVeiculo()
         {
-            string sql = @"SELECT a.id_veiculo as id, a.modelo, a.ano, a.placa, a.proprietario, a.id_fornecedor as IdFornecedor, b.nome as NomeFornecedor
+            string sql = @"SELECT a.id_veiculo as id, a.modelo, a.ano, a.placa, a.proprietario, a.id_fornecedor as IdFornecedor, b.nome as NomeFornecedor, a.codigo
                         FROM encopav_veiculo a
                         INNER JOIN encopav_fornecedor b
                         ON a.id_fornecedor = b.id_fornecedor;";
@@ -201,13 +201,14 @@ namespace Repository
 
         public async Task AlterarVeiculo(VeiculoDto veiculo)
         {
-            string sql = "UPDATE encopav_veiculo SET modelo = @Modelo, ano = @Ano, placa = @Placa, proprietario = @Proprietario WHERE id_veiculo = @Id;";
+            string sql = "UPDATE encopav_veiculo SET modelo = @Modelo, ano = @Ano, placa = @Placa, proprietario = @Proprietario, codigo = @Codigo WHERE id_veiculo = @Id;";
 
             DynamicParameters parametros = new();
             parametros.Add("@Modelo", veiculo.Modelo, DbType.String);
             parametros.Add("@Ano", veiculo.Ano, DbType.String);
             parametros.Add("@Placa", veiculo.Placa, DbType.String);
             parametros.Add("@Proprietario", veiculo.Proprietario, DbType.String);
+            parametros.Add("@Codigo", veiculo.Codigo, DbType.String);
             parametros.Add("@Id", veiculo.Id, DbType.Int32);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
@@ -216,7 +217,7 @@ namespace Repository
 
         public async Task IncluirVeiculo(VeiculoDto veiculo)
         {
-            string sql = "INSERT INTO encopav_veiculo (id_fornecedor, modelo, ano, placa, proprietario) VALUES (@IdFornecedor, @Modelo, @Ano, @Placa, @Proprietario);";
+            string sql = "INSERT INTO encopav_veiculo (id_fornecedor, modelo, ano, placa, proprietario, codigo) VALUES (@IdFornecedor, @Modelo, @Ano, @Placa, @Proprietario, @Codigo);";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdFornecedor", veiculo.IdFornecedor, DbType.Int32);
@@ -224,6 +225,7 @@ namespace Repository
             parametros.Add("@Ano", veiculo.Ano, DbType.String);
             parametros.Add("@Placa", veiculo.Placa, DbType.String);
             parametros.Add("@Proprietario", veiculo.Proprietario, DbType.String);
+            parametros.Add("@Codigo", veiculo.Codigo, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
