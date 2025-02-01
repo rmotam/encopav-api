@@ -16,6 +16,8 @@ namespace Services
 
         Task AlterarEstoqueCap(EstoqueCapDto estoqueCap, string usuario);
 
+        Task<IEnumerable<EstoqueCapCompletoDto>> ListarEstoqueCap(int idUsina, DateTime dataDescarga);
+
         Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(int idUsina, DateTime dataMovimento);
 
         Task AlterarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario);

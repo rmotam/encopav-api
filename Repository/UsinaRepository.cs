@@ -182,24 +182,18 @@ namespace Repository
 
         public async Task<IEnumerable<EstoqueCapCompletoDto>> ListarEstoqueCap(int idUsina, DateTime DataDescargaInicio, DateTime DataDescargaFim)
         {
-            string sql = @"SELECT a.id_saida_usina as IdSaidaUsina, a.id_usina as IdUsina, a.data_saida as DataSaida, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_material as IdMaterial, 
-                                c.nome as NomeMaterial, a.id_veiculo as IdVeiculo, d.placa as PlacaVeiculo, e.nome as Transportadora, a.ticket_balanca as TicketBalanca, 
-                                a.peso_entrada as PesoEntrada, a.peso_bruto as PesoBruto, a.peso_liquido as PesoLiquido, a.id_obra as IdObra, f.nome as NomeObra, 
-                                a.id_trecho as IdTrecho, g.nome as NomeTrecho, a.id_faixa_cbuq as IdFaixaCbuq, h.nome as NomeFaixaCbuq, a.user_name as UserName
-                            FROM encopav_saida_usina a
-                            LEFT JOIN encopav_material c
-                            ON a.id_material = c.id_material
-                            LEFT JOIN encopav_veiculo d
-                            ON a.id_veiculo = d.id_veiculo
-                            LEFT JOIN encopav_fornecedor e
-                            ON d.id_fornecedor = e.id_fornecedor
-                            LEFT JOIN encopav_obra f
-                            ON a.id_obra = f.id_obra
-                            LEFT JOIN encopav_trecho g
-                            ON a.id_trecho = g.id_trecho
-                            LEFT JOIN encopav_faixa_cbuq h
-                            ON a.id_faixa_cbuq = h.id_faixa_cbuq
-                            WHERE id_usina = @IdUsina
+            string sql = @"SELECT a.id_estoque_cap as IdEstoqueCap, a.data_descarga as DataDescarga, a.numero_nota_fiscal as NumeroNotaFiscal, a.pago_por as PagoPor, 
+                            a.id_fornecedor as IdFornecedor, b.nome as NomeFornecedor, a.id_transportadora as IdTransportadora, c.nome as NomeTransportadora, a.volume, a.valor, 
+                            a.id_tipo_cap as IdTipoCap, d.nome as NomeTipoCap, a.consumo_tanque as ConsumoTanque, a.saldo_estoque as SaldoEstoque, a.producao_cbuq as ProducaoCbuq, 
+                            a.teor_real as TeorReal, a.observacao, a.user_name as UserName
+                            FROM encopav_estoque_cap a
+                            LEFT JOIN encopav_fornecedor b
+                            ON a.id_fornecedor = b.id_fornecedor
+                            LEFT JOIN encopav_fornecedor c
+                            ON a.id_transportadora = c.id_fornecedor
+                            LEFT JOIN encopav_tipo_cap d
+                            ON a.id_tipo_cap = d.id_tipo_cap
+                            WHERE a.id_usina = @IdUsina
                             AND a.data_descarga BETWEEN @DataDescargaInicio AND @DataDescargaFim";
 
             DynamicParameters parametros = new();
@@ -230,7 +224,7 @@ namespace Repository
                             ON a.id_trecho = g.id_trecho
                             LEFT JOIN encopav_faixa_cbuq h
                             ON a.id_faixa_cbuq = h.id_faixa_cbuq
-                            WHERE id_usina = @IdUsina
+                            WHERE a.id_usina = @IdUsina
                             AND a.data_saida BETWEEN @DataSaidaInicio AND @DataSaidaFim";
 
             DynamicParameters parametros = new();

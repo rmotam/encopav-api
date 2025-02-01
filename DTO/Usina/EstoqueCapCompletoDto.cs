@@ -4,7 +4,7 @@
     {
         public string? NomeFornecedor { get; set; }
 
-        public string? Transportadora { get; set; }
+        public string? NomeTransportadora { get; set; }
 
         public string? NomeTipoCap {  get; set; }
 

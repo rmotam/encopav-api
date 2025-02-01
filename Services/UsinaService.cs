@@ -40,5 +40,14 @@ namespace Services
         public async Task AlterarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario) => await _usinaRepository.AlterarSaidaUsina(saidaUsina, usuario);
 
         public async Task AlterarEstoqueCap(EstoqueCapDto estoqueCap, string usuario) => await _usinaRepository.AlterarEstoqueCap(estoqueCap, usuario);
+
+        public async Task<IEnumerable<EstoqueCapCompletoDto>> ListarEstoqueCap(int idUsina, DateTime dataDescarga)
+        {
+            DateTime apenasData = dataDescarga.Date;
+
+            DateTime dataDescargaFim = apenasData.AddDays(1).AddTicks(-1);
+
+            return await _usinaRepository.ListarEstoqueCap(idUsina, apenasData, dataDescargaFim);
+        }
     }
 }

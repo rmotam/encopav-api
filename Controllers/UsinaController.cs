@@ -173,12 +173,56 @@ namespace Controllers
 
                 await _usinaService.AlterarSaidaUsina(saidaUsina, usuario);
 
-                return Ok("Entrada alterada com sucesso.");
+                return Ok("Saída alterada com sucesso.");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPut]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> AlterarEstoqueCap([FromBody] EstoqueCapDto estoqueCap)
+        {
+            try
+            {
+                var cadastradoHoje = estoqueCap.DataDescarga.Value.Date == DateTime.Today;
+
+                var permissao = User.Claims.FirstOrDefault(x => x.Type == "perfil");
+
+                var perfil = ObterPerfil(permissao.Value);
+
+                var usuario = User.Identity?.Name;
+
+                if (!perfil.Any(x => x.Nome.Contains(PERFIL_SALA_TECNICA)) &&
+                    !(perfil.Any(x => x.Nome.Contains(PERFIL_OPERACAO_USINA)) && cadastradoHoje && usuario == estoqueCap.UserName))
+                {
+                    return Forbid("Operação não permitida.");
+                }
+
+                await _usinaService.AlterarEstoqueCap(estoqueCap, usuario);
+
+                return Ok("Estoque CAP alterado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Authorize("Bearer")]
+        public async Task<ActionResult<IEnumerable<EstoqueCapCompletoDto>>> ListarEstoqueCap(int idUsina, DateTime dataDescarga)
+        {
+            var retorno = await _usinaService.ListarEstoqueCap(idUsina, dataDescarga);
+
+            if (retorno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(retorno);
         }
 
         private IEnumerable<PerfilUsuarioDto> ObterPerfil(string perfilJson) => JsonConvert.DeserializeObject<IEnumerable<PerfilUsuarioDto>>(perfilJson);
