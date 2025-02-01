@@ -38,5 +38,7 @@ namespace Services
         }
 
         public async Task AlterarSaidaUsina(SaidaUsinaDto saidaUsina, string usuario) => await _usinaRepository.AlterarSaidaUsina(saidaUsina, usuario);
+
+        public async Task AlterarEstoqueCap(EstoqueCapDto estoqueCap, string usuario) => await _usinaRepository.AlterarEstoqueCap(estoqueCap, usuario);
     }
 }

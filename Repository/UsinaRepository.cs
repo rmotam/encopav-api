@@ -122,28 +122,93 @@ namespace Repository
 
         public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario)
         {
-            string sql = @"INSERT INTO encopav_estoque_cap (id_unidade_industrial, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, quantidade, id_tipo_cap, valor_pago, consumo_tanque, saldo_estoque, producao_usina, teor_consumo, horimetro_inicial, horimetro_final, observacao, user_name, dthr)
-                            VALUES (@IdUnidadeInsdustrial, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @Quantidade, @IdTipoCap, @ValorPago, @ConsumoTanque, @SaldoEstoque, @ProducaoUsina, @TeorConsumo, @HorimetroInicial, @HorimetroFinal, @Observacao, @Usuario, NOW());";
+            string sql = @"INSERT INTO encopav_estoque_cap (id_usina, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, volume, id_tipo_cap, valor, consumo_tanque, saldo_estoque, producao_cbuq, teor_real, observacao, user_name, dthr)
+                            VALUES (@IdUsina, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @Volume, @IdTipoCap, @Valor, @ConsumoTanque, @SaldoEstoque, @ProducaoCbuq, @TeorConsumo, @Observacao, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
-            parametros.Add("@IdUnidadeInsdustrial", estoqueCap.IdUnidadeIndustrial, DbType.Int32);
+            parametros.Add("@IdUsina", estoqueCap.IdUsina, DbType.Int32);
             parametros.Add("@NumeroNotaFiscal", estoqueCap.NumeroNotaFiscal, DbType.String);
             parametros.Add("@PagoPor", estoqueCap.PagoPor, DbType.String);
             parametros.Add("@IdFornecedor", estoqueCap.IdFornecedor, DbType.Int32);
-            parametros.Add("@Quantidade", estoqueCap.Quantidade, DbType.String);
+            parametros.Add("@Volume", estoqueCap.Volume, DbType.Decimal);
             parametros.Add("@IdTipoCap", estoqueCap.IdTipoCap, DbType.Int32);
-            parametros.Add("@ValorPago", estoqueCap.ValorPago, DbType.Decimal);
+            parametros.Add("@Valor", estoqueCap.Valor, DbType.Decimal);
             parametros.Add("@ConsumoTanque", estoqueCap.ConsumoTanque, DbType.Decimal);
             parametros.Add("@SaldoEstoque", estoqueCap.SaldoEstoque, DbType.Decimal);
-            parametros.Add("@ProducaoUsina", estoqueCap.ProducaoUsina, DbType.Decimal);
-            parametros.Add("@TeorConsumo", estoqueCap.TeorConsumo, DbType.Decimal);
-            parametros.Add("@HorimetroInicial", estoqueCap.HorimetroInicial, DbType.String);
-            parametros.Add("@HorimetroFinal", estoqueCap.HorimetroFinal, DbType.String);
+            parametros.Add("@ProducaoCbuq", estoqueCap.ProducaoCbuq, DbType.Decimal);
+            parametros.Add("@TeorReal", estoqueCap.TeorReal, DbType.Decimal);
             parametros.Add("@Observacao", estoqueCap.Observacao, DbType.String);
             parametros.Add("@Usuario", usuario, DbType.String);
 
             using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
             await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task AlterarEstoqueCap(EstoqueCapDto estoqueCap, string usuario)
+        {
+            string sqlHist = @"INSERT INTO encopav_estoque_cap_hist (id_usina, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, volume, id_tipo_cap, valor, consumo_tanque, saldo_estoque, producao_cbuq, teor_real, observacao, user_name, dthr) 
+                            SELECT id_usina, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, volume, id_tipo_cap, valor, consumo_tanque, saldo_estoque, producao_cbuq, teor_real, observacao, user_name, dthr 
+                            FROM encopav_estoque_cap
+                            WHERE id_estoque_cap = @Id;";
+
+            DynamicParameters parametrosHist = new();
+            parametrosHist.Add("@Id", estoqueCap.IdEstoqueCap, DbType.Int32);
+
+            string sql = @"UPDATE encopav_estoque_cap SET numero_nota_fiscal = @NumeroNotaFiscal, id_fornecedor = @IdFornecedor, pago_por = @PagoPor, 
+                                volume = @Volume, valor = @Valor, id_tipo_cap = @IdTipoCap, consumo_tanque = @ConsumoTanque, saldo_estoque = @SaldoEstoque
+                                producao_cbuq = @ProducaoCbuq, teor_real = @TeorReal, observacao = @Observacao, user_name = @Usuario, dthr = NOW()
+                            WHERE id_estoque_cap = @Id;";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@Id", estoqueCap.IdEstoqueCap, DbType.Int32);
+            parametros.Add("@IdUsina", estoqueCap.IdUsina, DbType.Int32);
+            parametros.Add("@NumeroNotaFiscal", estoqueCap.NumeroNotaFiscal, DbType.String);
+            parametros.Add("@PagoPor", estoqueCap.PagoPor, DbType.String);
+            parametros.Add("@IdFornecedor", estoqueCap.IdFornecedor, DbType.Int32);
+            parametros.Add("@Volume", estoqueCap.Volume, DbType.Decimal);
+            parametros.Add("@IdTipoCap", estoqueCap.IdTipoCap, DbType.Int32);
+            parametros.Add("@Valor", estoqueCap.Valor, DbType.Decimal);
+            parametros.Add("@ConsumoTanque", estoqueCap.ConsumoTanque, DbType.Decimal);
+            parametros.Add("@SaldoEstoque", estoqueCap.SaldoEstoque, DbType.Decimal);
+            parametros.Add("@ProducaoCbuq", estoqueCap.ProducaoCbuq, DbType.Decimal);
+            parametros.Add("@TeorReal", estoqueCap.TeorReal, DbType.Decimal);
+            parametros.Add("@Observacao", estoqueCap.Observacao, DbType.String);
+            parametros.Add("@Usuario", usuario, DbType.String);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            await conexao.ExecuteAsync(sqlHist, parametrosHist);
+            await conexao.ExecuteAsync(sql, parametros);
+        }
+
+        public async Task<IEnumerable<EstoqueCapCompletoDto>> ListarEstoqueCap(int idUsina, DateTime DataDescargaInicio, DateTime DataDescargaFim)
+        {
+            string sql = @"SELECT a.id_saida_usina as IdSaidaUsina, a.id_usina as IdUsina, a.data_saida as DataSaida, a.numero_nota_fiscal as NumeroNotaFiscal, a.id_material as IdMaterial, 
+                                c.nome as NomeMaterial, a.id_veiculo as IdVeiculo, d.placa as PlacaVeiculo, e.nome as Transportadora, a.ticket_balanca as TicketBalanca, 
+                                a.peso_entrada as PesoEntrada, a.peso_bruto as PesoBruto, a.peso_liquido as PesoLiquido, a.id_obra as IdObra, f.nome as NomeObra, 
+                                a.id_trecho as IdTrecho, g.nome as NomeTrecho, a.id_faixa_cbuq as IdFaixaCbuq, h.nome as NomeFaixaCbuq, a.user_name as UserName
+                            FROM encopav_saida_usina a
+                            LEFT JOIN encopav_material c
+                            ON a.id_material = c.id_material
+                            LEFT JOIN encopav_veiculo d
+                            ON a.id_veiculo = d.id_veiculo
+                            LEFT JOIN encopav_fornecedor e
+                            ON d.id_fornecedor = e.id_fornecedor
+                            LEFT JOIN encopav_obra f
+                            ON a.id_obra = f.id_obra
+                            LEFT JOIN encopav_trecho g
+                            ON a.id_trecho = g.id_trecho
+                            LEFT JOIN encopav_faixa_cbuq h
+                            ON a.id_faixa_cbuq = h.id_faixa_cbuq
+                            WHERE id_usina = @IdUsina
+                            AND a.data_descarga BETWEEN @DataDescargaInicio AND @DataDescargaFim";
+
+            DynamicParameters parametros = new();
+            parametros.Add("@IdUsina", idUsina, DbType.Int32);
+            parametros.Add("@DataDescargaInicio", DataDescargaInicio, DbType.DateTime);
+            parametros.Add("@DataDescargaFim", DataDescargaFim, DbType.DateTime);
+
+            using MySqlConnection conexao = new(_configuracao.MySQLConnectionString);
+            return await conexao.QueryAsync<EstoqueCapCompletoDto>(sql, parametros);
         }
 
         public async Task<IEnumerable<SaidaUsinaCompletaDto>> ListarSaidaUsina(int idUsina, DateTime DataSaidaInicio, DateTime DataSaidaFim)
@@ -211,5 +276,6 @@ namespace Repository
             await conexao.ExecuteAsync(sqlHist, parametrosHist);
             await conexao.ExecuteAsync(sql, parametros);
         }
+
     }
 }
