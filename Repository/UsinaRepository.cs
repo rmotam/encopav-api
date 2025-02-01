@@ -122,14 +122,15 @@ namespace Repository
 
         public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario)
         {
-            string sql = @"INSERT INTO encopav_estoque_cap (id_usina, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, volume, id_tipo_cap, valor, consumo_tanque, saldo_estoque, producao_cbuq, teor_real, observacao, user_name, dthr)
-                            VALUES (@IdUsina, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @Volume, @IdTipoCap, @Valor, @ConsumoTanque, @SaldoEstoque, @ProducaoCbuq, @TeorConsumo, @Observacao, @Usuario, NOW());";
+            string sql = @"INSERT INTO encopav_estoque_cap (id_usina, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, id_transportadora, volume, id_tipo_cap, valor, consumo_tanque, saldo_estoque, producao_cbuq, teor_real, observacao, user_name, dthr)
+                            VALUES (@IdUsina, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @IdTransportadora, @Volume, @IdTipoCap, @Valor, @ConsumoTanque, @SaldoEstoque, @ProducaoCbuq, @TeorConsumo, @Observacao, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdUsina", estoqueCap.IdUsina, DbType.Int32);
             parametros.Add("@NumeroNotaFiscal", estoqueCap.NumeroNotaFiscal, DbType.String);
             parametros.Add("@PagoPor", estoqueCap.PagoPor, DbType.String);
             parametros.Add("@IdFornecedor", estoqueCap.IdFornecedor, DbType.Int32);
+            parametros.Add("@IdTransportadora", estoqueCap.IdTransportadora, DbType.Int32);
             parametros.Add("@Volume", estoqueCap.Volume, DbType.Decimal);
             parametros.Add("@IdTipoCap", estoqueCap.IdTipoCap, DbType.Int32);
             parametros.Add("@Valor", estoqueCap.Valor, DbType.Decimal);
@@ -154,7 +155,7 @@ namespace Repository
             DynamicParameters parametrosHist = new();
             parametrosHist.Add("@Id", estoqueCap.IdEstoqueCap, DbType.Int32);
 
-            string sql = @"UPDATE encopav_estoque_cap SET numero_nota_fiscal = @NumeroNotaFiscal, id_fornecedor = @IdFornecedor, pago_por = @PagoPor, 
+            string sql = @"UPDATE encopav_estoque_cap SET numero_nota_fiscal = @NumeroNotaFiscal, id_fornecedor = @IdFornecedor, id_transportadora = @IdTransportadora, pago_por = @PagoPor, 
                                 volume = @Volume, valor = @Valor, id_tipo_cap = @IdTipoCap, consumo_tanque = @ConsumoTanque, saldo_estoque = @SaldoEstoque
                                 producao_cbuq = @ProducaoCbuq, teor_real = @TeorReal, observacao = @Observacao, user_name = @Usuario, dthr = NOW()
                             WHERE id_estoque_cap = @Id;";
@@ -165,6 +166,7 @@ namespace Repository
             parametros.Add("@NumeroNotaFiscal", estoqueCap.NumeroNotaFiscal, DbType.String);
             parametros.Add("@PagoPor", estoqueCap.PagoPor, DbType.String);
             parametros.Add("@IdFornecedor", estoqueCap.IdFornecedor, DbType.Int32);
+            parametros.Add("@IdTransportadora", estoqueCap.IdTransportadora, DbType.Int32);
             parametros.Add("@Volume", estoqueCap.Volume, DbType.Decimal);
             parametros.Add("@IdTipoCap", estoqueCap.IdTipoCap, DbType.Int32);
             parametros.Add("@Valor", estoqueCap.Valor, DbType.Decimal);
