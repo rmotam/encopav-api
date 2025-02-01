@@ -156,7 +156,7 @@ namespace Repository
             parametrosHist.Add("@Id", estoqueCap.IdEstoqueCap, DbType.Int32);
 
             string sql = @"UPDATE encopav_estoque_cap SET numero_nota_fiscal = @NumeroNotaFiscal, id_fornecedor = @IdFornecedor, id_transportadora = @IdTransportadora, pago_por = @PagoPor, 
-                                volume = @Volume, valor = @Valor, id_tipo_cap = @IdTipoCap, consumo_tanque = @ConsumoTanque, saldo_estoque = @SaldoEstoque
+                                volume = @Volume, valor = @Valor, id_tipo_cap = @IdTipoCap, consumo_tanque = @ConsumoTanque, saldo_estoque = @SaldoEstoque,
                                 producao_cbuq = @ProducaoCbuq, teor_real = @TeorReal, observacao = @Observacao, user_name = @Usuario, dthr = NOW()
                             WHERE id_estoque_cap = @Id;";
 
