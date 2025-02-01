@@ -123,7 +123,7 @@ namespace Repository
         public async Task RegistrarEstoqueCap(EstoqueCapDto estoqueCap, string usuario)
         {
             string sql = @"INSERT INTO encopav_estoque_cap (id_usina, data_descarga, numero_nota_fiscal, pago_por, id_fornecedor, id_transportadora, volume, id_tipo_cap, valor, consumo_tanque, saldo_estoque, producao_cbuq, teor_real, observacao, user_name, dthr)
-                            VALUES (@IdUsina, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @IdTransportadora, @Volume, @IdTipoCap, @Valor, @ConsumoTanque, @SaldoEstoque, @ProducaoCbuq, @TeorConsumo, @Observacao, @Usuario, NOW());";
+                            VALUES (@IdUsina, NOW(), @NumeroNotaFiscal, @PagoPor, @IdFornecedor, @IdTransportadora, @Volume, @IdTipoCap, @Valor, @ConsumoTanque, @SaldoEstoque, @ProducaoCbuq, @TeorReal, @Observacao, @Usuario, NOW());";
 
             DynamicParameters parametros = new();
             parametros.Add("@IdUsina", estoqueCap.IdUsina, DbType.Int32);
